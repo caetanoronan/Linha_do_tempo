@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cladograma Avançado: Evolução de Cynodontia</title>
+    <style>
+        /* CSS: A APARÊNCIA DO PROJETO */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .wrapper {
+            display: flex;
+            gap: 30px;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        /* --- Contêiner Principal do Cladograma --- */
+        .cladogram-container {
+            position: relative; /* FUNDAMENTAL para o posicionamento absoluto dos filhos */
+            width: 900px;
+            height: 700px;
+            background-image: linear-gradient(to right, #f0f0f0 1px, transparent 1px);
+            background-size: 100px 100%;
+        }
+
+        /* --- Elementos do Cladograma --- */
+        .taxon-name {
+            position: absolute;
+            font-size: 14px;
+            font-style: italic;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        .taxon-name:hover {
+            background-color: rgba(255, 235, 59, 0.5);
+        }
+
+        .skull-image {
+            position: absolute;
+            width: 120px; /* Largura das imagens de crânio */
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .skull-image:hover {
+            transform: scale(1.1);
+        }
+
+        .branch {
+            position: absolute;
+            background-color: #444;
+        }
+        .branch-v { width: 2px; } /* Linha vertical */
+        .branch-h { height: 2px; } /* Linha horizontal */
+
+        .group-label {
+             position: absolute;
+             font-weight: bold;
+             font-size: 16px;
+             writing-mode: vertical-rl; /* Escreve o texto na vertical */
+             transform: rotate(180deg);
+             text-align: center;
+        }
+
+
+        /* --- POSICIONAMENTO PRECISO DOS ELEMENTOS --- */
+        /* Este é o "desenho" do cladograma. Cada valor foi ajustado manualmente. */
+        
+        /* Grupo Cynodontia */
+        #cyno-label { top: 60px; left: 10px; }
+        #cyno-bracket { top: 50px; left: 40px; height: 260px; }
+
+        /* 1. Procynosuchus */
+        #procyno-v { top: 50px; left: 100px; height: 2px; } /* Linha horizontal saindo do tronco */
+        #procyno-name { top: 40px; left: 110px; }
+        #procyno-skull { top: 10px; left: 220px; }
+
+        /* Tronco principal */
+        #main-trunk-1 { top: 50px; left: 50px; height: 200px; }
+        
+        /* 2. Thrinaxodon */
+        #thrina-h { top: 150px; left: 100px; width: 50px; }
+        #thrina-name { top: 140px; left: 160px; }
+        #thrina-skull { top: 110px; left: 280px; }
+        
+        /* Tronco continua */
+        #main-trunk-2 { top: 150px; left: 100px; height: 100px; }
+
+        /* Grupo Eucynodontia */
+        #eucyno-label { top: 200px; left: 50px; }
+        #eucyno-bracket { top: 200px; left: 80px; height: 360px; }
+
+        /* 3. Cynognathus */
+        #cynog-h { top: 250px; left: 150px; width: 50px; }
+        #cynog-name { top: 240px; left: 210px; }
+        #cynog-skull { top: 210px; left: 330px; }
+        
+        /* Tronco continua */
+        #main-trunk-3 { top: 250px; left: 150px; height: 200px; }
+
+        /* Grupo Mammaliaformes */
+        #mammalia-label { top: 400px; left: 120px; }
+        #mammalia-bracket { top: 400px; left: 150px; height: 260px; }
+        
+        /* 4. Morganucodon */
+        #morgan-h { top: 450px; left: 200px; width: 50px; }
+        #morgan-name { top: 440px; left: 260px; }
+        #morgan-skull { top: 410px; left: 400px; }
+        
+        /* Tronco continua */
+        #main-trunk-4 { top: 450px; left: 200px; height: 100px; }
+        
+        /* 5. Monotremata (Ornithorhynchus) */
+        #mono-h { top: 550px; left: 250px; width: 50px; }
+        #mono-name { top: 540px; left: 310px; }
+        #mono-skull { top: 510px; left: 450px; }
+        
+
+        /* --- Área de Detalhes --- */
+        .details-container {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: sticky; /* Fica fixo ao rolar a página */
+            top: 20px;
+        }
+        .details-container h2 { margin-top: 0; color: #0056b3; }
+        .details-container img { max-width: 100%; border-radius: 4px; margin-bottom: 15px; }
+        .era { font-size: 0.9em; color: #555; background-color: #e9ecef; padding: 10px; border-radius: 4px; margin-top: 15px;}
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="cladogram-container">
+        <div id="cyno-label" class="group-label">Cynodontia</div>
+        <div id="cyno-bracket" class="branch branch-v"></div>
+        <div id="eucyno-label" class="group-label">Eucynodontia</div>
+        <div id="eucyno-bracket" class="branch branch-v"></div>
+        <div id="mammalia-label" class="group-label">Mammaliaformes</div>
+        <div id="mammalia-bracket" class="branch branch-v"></div>
+        
+        <div id="main-trunk-1" class="branch branch-v"></div>
+        <div id="main-trunk-2" class="branch branch-v"></div>
+        <div id="main-trunk-3" class="branch branch-v"></div>
+        <div id="main-trunk-4" class="branch branch-v"></div>
+
+        <div id="procyno-v" class="branch branch-h"></div>
+        <div id="procyno-name" class="taxon-name" onclick="showDetails('procynosuchus')">Procynosuchus</div>
+        <img id="procyno-skull" src="images/procynosuchus.png" class="skull-image" onclick="showDetails('procynosuchus')">
+
+        <div id="thrina-h" class="branch branch-h"></div>
+        <div id="thrina-name" class="taxon-name" onclick="showDetails('thrinaxodon')">Thrinaxodon</div>
+        <img id="thrina-skull" src="images/thrinaxodon.png" class="skull-image" onclick="showDetails('thrinaxodon')">
+
+        <div id="cynog-h" class="branch branch-h"></div>
+        <div id="cynog-name" class="taxon-name" onclick="showDetails('cynognathus')">Cynognathus</div>
+        <img id="cynog-skull" src="images/cynognathus.png" class="skull-image" onclick="showDetails('cynognathus')">
+
+        <div id="morgan-h" class="branch branch-h"></div>
+        <div id="morgan-name" class="taxon-name" onclick="showDetails('morganucodon')">Morganucodon</div>
+        <img id="morgan-skull" src="images/morganucodon.png" class="skull-image" onclick="showDetails('morganucodon')">
+        
+        <div id="mono-h" class="branch branch-h"></div>
+        <div id="mono-name" class="taxon-name" onclick="showDetails('ornithorhynchus')">Ornithorhynchus</div>
+        <img id="mono-skull" src="images/ornithorhynchus.png" class="skull-image" onclick="showDetails('ornithorhynchus')">
+    </div>
+
+    <div class="details-container">
+        <h2 id="details-title">Cladograma de Cynodontia</h2>
+        <img id="details-image" src="images/cladogram-overview.png" alt="Visão geral" >
+        <p id="details-text">Clique em um táxon para ver os detalhes. Este cladograma mostra a transição gradual de cinodontes basais para formas mais derivadas, culminando nos mamíferos. As principais mudanças ocorreram na mandíbula, dentição e ouvido médio.</p>
+        <div id="details-era" class="era"></div>
+    </div>
+</div>
+
+<script>
+    // JAVASCRIPT: A INTERATIVIDADE
+    const cladogramData = {
+        procynosuchus: {
+            title: 'Procynosuchus',
+            text: 'Um dos primeiros e mais basais cinodontes. Possuía um palato secundário parcial e uma postura semi-ereta, mostrando adaptações para um estilo de vida semi-aquático.',
+            image: 'images/procynosuchus.png',
+            era: '<strong>Período:</strong> Permiano Superior (~259–252 Mya)'
+        },
+        thrinaxodon: {
+            title: 'Thrinaxodon',
+            text: 'Um pequeno cinodonte do Triássico Inferior, conhecido por fósseis excepcionalmente preservados. Apresentava uma clara divisão dos dentes em incisivos, caninos e pós-caninos e evidências de um diafragma, sugerindo um metabolismo mais elevado.',
+            image: 'images/thrinaxodon.png',
+            era: '<strong>Período:</strong> Triássico Inferior (~252–247 Mya)'
+        },
+        cynognathus: {
+            title: 'Cynognathus',
+            text: 'Um predador do tamanho de um lobo do Triássico Médio. Seu crânio era robusto e o osso dentário constituía a maior parte da mandíbula, uma característica chave na transição para os mamíferos.',
+            image: 'images/cynognathus.png',
+            era: '<strong>Período:</strong> Triássico Médio (~247–237 Mya)'
+        },
+        morganucodon: {
+            title: 'Morganucodon',
+            text: 'Um dos mais conhecidos Mammaliaformes. Era um pequeno animal noturno, provavelmente insetívoro. É crucial para o estudo da evolução do ouvido médio dos mamíferos e da articulação da mandíbula dentário-esquamosal.',
+            image: 'images/morganucodon.png',
+            era: '<strong>Período:</strong> Triássico Superior ao Jurássico Inferior (~205 Mya)'
+        },
+        ornithorhynchus: {
+            title: 'Ornithorhynchus (Ornitorrinco)',
+            text: 'Um mamífero moderno do grupo dos monotremados. Representa uma linhagem que divergiu cedo na evolução dos mamíferos. Apesar de moderno, retém características ancestrais como a oviparidade (pôr ovos).',
+            image: 'images/ornithorhynchus.png',
+            era: '<strong>Período:</strong> Quaternário (Atual)'
+        }
+    };
+
+    const titleEl = document.getElementById('details-title');
+    const imageEl = document.getElementById('details-image');
+    const textEl = document.getElementById('details-text');
+    const eraEl = document.getElementById('details-era');
+
+    function showDetails(taxonId) {
+        const data = cladogramData[taxonId];
+        if (data) {
+            titleEl.textContent = data.title;
+            imageEl.src = data.image;
+            textEl.textContent = data.text;
+            eraEl.innerHTML = data.era;
+            eraEl.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

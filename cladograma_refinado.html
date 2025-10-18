@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cladograma Refinado: Evolução de Cynodontia</title>
+    <style>
+        /* CSS: A APARÊNCIA REFINADA */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #212529;
+        }
+
+        .wrapper {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            max-width: 1500px;
+        }
+
+        /* --- Contêiner Principal do Cladograma --- */
+        .cladogram-container {
+            position: relative;
+            width: 1000px;
+            height: 750px;
+        }
+
+        /* --- Elementos do Cladograma --- */
+        .taxon-name {
+            position: absolute;
+            font-size: 14px;
+            font-style: italic;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            /* NOVO: Alinhamento preciso */
+            left: 280px; 
+            width: 120px; /* Garante que os textos não desalinhm */
+        }
+        /* Rótulos de idade próximos aos táxons */
+        .age-label {
+            position: absolute;
+            font-size: 12px;
+            color: #495057;
+            left: 410px; /* deslocamento padrão; ajustes finos por id abaixo */
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #e9ecef;
+        }
+        .taxon-name:hover {
+            background-color: rgba(255, 235, 59, 0.5);
+        }
+        /* NOVO: Classe para o item selecionado */
+        .taxon-name.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .skull-image {
+            position: absolute;
+            width: 150px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s, filter 0.2s;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+            /* NOVO: Alinhamento preciso */
+            left: 450px; 
+        }
+        .skull-image:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+
+        .branch {
+            position: absolute;
+            background-color: #343a40;
+        }
+        .branch-v { width: 2px; }
+        .branch-h { height: 2px; }
+
+        .group-label {
+             position: absolute;
+             font-weight: bold;
+             font-size: 16px;
+             color: #6c757d;
+             writing-mode: vertical-rl;
+             transform: rotate(180deg);
+             text-align: center;
+        }
+        
+        /* NOVO: Estilo para os suportes de grupo */
+        .bracket { position: absolute; background-color: #6c757d; }
+        .bracket-v { width: 2px; }
+        .bracket-h { height: 2px; }
+
+
+        /* --- POSICIONAMENTO PRECISO DOS ELEMENTOS (REFEITO) --- */
+        
+        /* Grupo Cynodontia */
+        #cyno-label { top: 120px; left: 10px; }
+        #cyno-bracket-v { top: 50px; left: 40px; height: 280px; }
+        #cyno-bracket-t { top: 50px; left: 40px; width: 15px; } /* Top h-bar */
+        #cyno-bracket-b { top: 330px; left: 40px; width: 15px; } /* Bottom h-bar */
+
+        /* 1. Procynosuchus (Permiano) */
+        #procyno-h { top: 100px; left: 50px; width: 230px; }
+        #procyno-name { top: 90px; }
+        #procyno-skull { top: 60px; }
+    /* ajuste do rótulo de idade */
+    #procyno-age { top: 92px; left: 420px; }
+
+        /* Tronco principal 1 */
+        #trunk-v1 { top: 100px; left: 50px; height: 100px; }
+        #trunk-h1 { top: 200px; left: 50px; width: 50px; } /* Degrau */
+        #trunk-v2 { top: 200px; left: 100px; height: 100px; }
+
+        /* Grupo Eucynodontia */
+        #eucyno-label { top: 270px; left: 50px; }
+        #eucyno-bracket-v { top: 200px; left: 80px; height: 350px; }
+        #eucyno-bracket-t { top: 200px; left: 80px; width: 15px; }
+        #eucyno-bracket-b { top: 550px; left: 80px; width: 15px; }
+
+        /* 2. Thrinaxodon (Triássico Inferior) */
+        #thrina-h { top: 250px; left: 100px; width: 180px; }
+        #thrina-name { top: 240px; }
+        #thrina-skull { top: 210px; }
+    #thrina-age { top: 242px; left: 420px; }
+        
+        /* Tronco continua */
+        #trunk-h2 { top: 300px; left: 100px; width: 50px; } /* Degrau */
+        #trunk-v3 { top: 300px; left: 150px; height: 100px; }
+
+        /* 3. Cynognathus (Triássico Médio) */
+        #cynog-h { top: 350px; left: 150px; width: 130px; }
+        #cynog-name { top: 340px; }
+        #cynog-skull { top: 310px; }
+    #cynog-age { top: 342px; left: 420px; }
+        
+        /* Tronco continua */
+        #trunk-h3 { top: 400px; left: 150px; width: 50px; } /* Degrau */
+        #trunk-v4 { top: 400px; left: 200px; height: 100px; }
+
+        /* Grupo Mammaliaformes */
+        #mammalia-label { top: 460px; left: 140px; }
+        #mammalia-bracket-v { top: 400px; left: 180px; height: 250px; }
+        #mammalia-bracket-t { top: 400px; left: 180px; width: 15px; }
+        #mammalia-bracket-b { top: 650px; left: 180px; width: 15px; }
+
+        /* 4. Morganucodon (Triássico Superior) */
+        #morgan-h { top: 450px; left: 200px; width: 80px; }
+        #morgan-name { top: 440px; }
+        #morgan-skull { top: 410px; }
+    #morgan-age { top: 442px; left: 420px; }
+        
+        /* Tronco continua */
+        #trunk-h4 { top: 500px; left: 200px; width: 50px; } /* Degrau */
+        #trunk-v5 { top: 500px; left: 250px; height: 100px; }
+        
+        /* 5. Ornithorhynchus (Atual) */
+        #mono-h { top: 600px; left: 250px; width: 30px; }
+        #mono-name { top: 590px; }
+        #mono-skull { top: 560px; }
+    #mono-age { top: 592px; left: 420px; }
+        
+
+        /* --- Área de Detalhes --- */
+        .details-container {
+            width: 450px;
+            padding: 25px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            position: sticky;
+            top: 20px;
+        }
+        .details-container h2 { margin-top: 0; color: #212529; font-size: 24px; }
+        .details-container img { max-width: 100%; border-radius: 4px; margin-bottom: 15px; border: 1px solid #e9ecef; }
+        .era { font-size: 1em; color: #495057; background-color: #e9ecef; padding: 12px; border-radius: 4px; margin-top: 15px; border-left: 5px solid #0d6efd; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="cladogram-container">
+        <div id="cyno-label" class="group-label">Cynodontia</div>
+        <div id="cyno-bracket-v" class="bracket bracket-v"></div>
+        <div id="cyno-bracket-t" class="bracket bracket-h"></div>
+        <div id="cyno-bracket-b" class="bracket bracket-h"></div>
+
+        <div id="eucyno-label" class="group-label">Eucynodontia</div>
+        <div id="eucyno-bracket-v" class="bracket bracket-v"></div>
+        <div id="eucyno-bracket-t" class="bracket bracket-h"></div>
+        <div id="eucyno-bracket-b" class="bracket bracket-h"></div>
+        
+        <div id="mammalia-label" class="group-label">Mammaliaformes</div>
+        <div id="mammalia-bracket-v" class="bracket bracket-v"></div>
+        <div id="mammalia-bracket-t" class="bracket bracket-h"></div>
+        <div id="mammalia-bracket-b" class="bracket bracket-h"></div>
+        
+        <div id="trunk-v1" class="branch branch-v"></div>
+        <div id="trunk-h1" class="branch branch-h"></div>
+        <div id="trunk-v2" class="branch branch-v"></div>
+        <div id="trunk-h2" class="branch branch-h"></div>
+        <div id="trunk-v3" class="branch branch-v"></div>
+        <div id="trunk-h3" class="branch branch-h"></div>
+        <div id="trunk-v4" class="branch branch-v"></div>
+        <div id="trunk-h4" class="branch branch-h"></div>
+        <div id="trunk-v5" class="branch branch-v"></div>
+
+        <div id="procyno-h" class="branch branch-h"></div>
+        <div id="procyno-name" class="taxon-name" onclick="showDetails('procynosuchus', this)">Procynosuchus</div>
+        <img id="procyno-skull" src="images/procynosuchus.png" class="skull-image" onclick="showDetails('procynosuchus', document.getElementById('procyno-name'))">
+    <div id="procyno-age" class="age-label" title="~259–252 Ma">~256 Ma</div>
+
+        <div id="thrina-h" class="branch branch-h"></div>
+        <div id="thrina-name" class="taxon-name" onclick="showDetails('thrinaxodon', this)">Thrinaxodon</div>
+        <img id="thrina-skull" src="images/thrinaxodon.png" class="skull-image" onclick="showDetails('thrinaxodon', document.getElementById('thrina-name'))">
+    <div id="thrina-age" class="age-label" title="~252–247 Ma">~250 Ma</div>
+
+        <div id="cynog-h" class="branch branch-h"></div>
+        <div id="cynog-name" class="taxon-name" onclick="showDetails('cynognathus', this)">Cynognathus</div>
+        <img id="cynog-skull" src="images/cynognathus.png" class="skull-image" onclick="showDetails('cynognathus', document.getElementById('cynog-name'))">
+    <div id="cynog-age" class="age-label" title="~247–237 Ma">~242 Ma</div>
+
+        <div id="morgan-h" class="branch branch-h"></div>
+        <div id="morgan-name" class="taxon-name" onclick="showDetails('morganucodon', this)">Morganucodon</div>
+        <img id="morgan-skull" src="images/morganucodon.png" class="skull-image" onclick="showDetails('morganucodon', document.getElementById('morgan-name'))">
+    <div id="morgan-age" class="age-label" title="~205 Ma">~205 Ma</div>
+        
+        <div id="mono-h" class="branch branch-h"></div>
+        <div id="mono-name" class="taxon-name" onclick="showDetails('ornithorhynchus', this)">Ornithorhynchus</div>
+        <img id="mono-skull" src="images/ornithorhynchus.png" class="skull-image" onclick="showDetails('ornithorhynchus', document.getElementById('mono-name'))">
+    <div id="mono-age" class="age-label" title="Atual">0 Ma</div>
+    </div>
+
+    <div class="details-container">
+        <h2 id="details-title">Cladograma de Cynodontia</h2>
+        <img id="details-image" src="images/cladogram-overview.png" alt="Visão geral">
+        <p id="details-text">Clique em um táxon para ver os detalhes. Este cladograma mostra a transição gradual de cinodontes basais para formas mais derivadas, culminando nos mamíferos. As principais mudanças ocorreram na mandíbula, dentição e ouvido médio.</p>
+        <div id="details-era" class="era" style="display:none;"></div>
+    </div>
+</div>
+
+<script>
+    // JAVASCRIPT: ATUALIZADO PARA FEEDBACK VISUAL
+    const cladogramData = {
+        procynosuchus: { title: 'Procynosuchus', text: 'Um dos primeiros e mais basais cinodontes. Possuía um palato secundário parcial e uma postura semi-ereta, mostrando adaptações para um estilo de vida semi-aquático.', image: 'images/procynosuchus.png', era: '<strong>Período:</strong> Permiano Superior (~259–252 Ma)' },
+        thrinaxodon: { title: 'Thrinaxodon', text: 'Um pequeno cinodonte do Triássico Inferior, conhecido por fósseis excepcionalmente preservados. Apresentava uma clara divisão dos dentes em incisivos, caninos e pós-caninos e evidências de um diafragma, sugerindo um metabolismo mais elevado.', image: 'images/thrinaxodon.png', era: '<strong>Período:</strong> Triássico Inferior (~252–247 Ma)' },
+        cynognathus: { title: 'Cynognathus', text: 'Um predador do tamanho de um lobo do Triássico Médio. Seu crânio era robusto e o osso dentário constituía a maior parte da mandíbula, uma característica chave na transição para os mamíferos.', image: 'images/cynognathus.png', era: '<strong>Período:</strong> Triássico Médio (~247–237 Ma)' },
+        morganucodon: { title: 'Morganucodon', text: 'Um dos mais conhecidos Mammaliaformes. Era um pequeno animal noturno, provavelmente insetívoro. É crucial para o estudo da evolução do ouvido médio dos mamíferos e da articulação da mandíbula dentário-esquamosal.', image: 'images/morganucodon.png', era: '<strong>Período:</strong> Triássico Superior ao Jurássico Inferior (~205 Ma)' },
+        ornithorhynchus: { title: 'Ornithorhynchus (Ornitorrinco)', text: 'Um mamífero moderno do grupo dos monotremados. Representa uma linhagem que divergiu cedo na evolução dos mamíferos. Apesar de moderno, retém características ancestrais como a oviparidade (pôr ovos).', image: 'images/ornithorhynchus.png', era: '<strong>Período:</strong> Quaternário (Atual; 0 Ma)' }
+    };
+
+    const titleEl = document.getElementById('details-title');
+    const imageEl = document.getElementById('details-image');
+    const textEl = document.getElementById('details-text');
+    const eraEl = document.getElementById('details-era');
+
+    let currentActiveElement = null; // Variável para rastrear o elemento ativo
+
+    // A função agora recebe o 'elementClicked' para poder destacá-lo
+    function showDetails(taxonId, elementClicked) {
+        // NOVO: Lógica para destacar o elemento ativo
+        if (currentActiveElement) {
+            currentActiveElement.classList.remove('active');
+        }
+        elementClicked.classList.add('active');
+        currentActiveElement = elementClicked;
+
+        // Lógica para mostrar os detalhes (como antes)
+        const data = cladogramData[taxonId];
+        if (data) {
+            titleEl.textContent = data.title;
+            imageEl.src = data.image;
+            textEl.textContent = data.text;
+            eraEl.innerHTML = data.era;
+            eraEl.style.display = 'block';
+        }
+    }
+
+    // --- Eixo de tempo simples (marcadores) ---
+    (function addTimeAxis(){
+        const container = document.querySelector('.cladogram-container');
+        const axis = document.createElement('div');
+        axis.id = 'time-axis';
+        axis.style.position = 'absolute';
+        axis.style.left = '0px';
+        axis.style.top = '40px';
+        axis.style.height = '680px';
+        axis.style.width = '40px';
+        axis.style.borderLeft = '2px solid #adb5bd';
+        axis.style.display = 'flex';
+        axis.style.flexDirection = 'column';
+        axis.style.justifyContent = 'space-between';
+        axis.style.padding = '10px 6px';
+
+        const marks = ['300 Ma','250 Ma','200 Ma','150 Ma','100 Ma','50 Ma','0 Ma'];
+        marks.forEach(m => {
+            const mark = document.createElement('div');
+            mark.textContent = m;
+            mark.style.fontSize = '11px';
+            mark.style.color = '#6c757d';
+            mark.style.transform = 'translateX(-2px)';
+            axis.appendChild(mark);
+        });
+
+        container.appendChild(axis);
+    })();
+</script>
+
+</body>
+</html>

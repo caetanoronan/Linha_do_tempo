@@ -1,0 +1,21 @@
+.DS_Store
+Thumbs.db
+node_modules/
+__pycache__/
+.env
+.vscode/
+*.log
+
+# Git LFS placeholder
+*.psd
+*.ai
+
+# Ignore system files
+desktop.ini
+
+# Ignore built files
+dist/
+build/
+
+# Keep images (unless use LFS)
+# images/

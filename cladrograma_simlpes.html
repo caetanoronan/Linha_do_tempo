@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cladograma - Teste</title>
+</head>
+<body>
+    <h1>Teste do Cladograma</h1>
+    
+    <div>
+        <button onclick="showDetails('synapsida')">Synapsida</button>
+        <button onclick="showDetails('therapsida')">Therapsida</button>
+        <button onclick="showDetails('cynodontia')">Cynodontia</button>
+        <button onclick="showDetails('mammalia')">Mammalia</button>
+    </div>
+    
+    <div id="cladogram-details" style="margin-top: 20px; padding: 20px; border: 1px solid #ccc;">
+        <h3 id="details-title">Selecione um nó</h3>
+        <p id="details-text">Clique em um botão acima para ver informações.</p>
+        <p id="details-timeline" style="display:none;"></p>
+    </div>
+
+    <script>
+        const cladogramData = {
+            synapsida: {
+                title: 'Synapsida',
+                text: 'O ponto de partida. Grupo que se distingue por possuir uma única abertura temporal no crânio.',
+                timeline: '<strong>Período:</strong> A partir de ~312 Milhões de anos.'
+            },
+            therapsida: {
+                title: 'Therapsida', 
+                text: 'Um grupo derivado de Synapsida com metabolismo mais elevado.',
+                timeline: '<strong>Período:</strong> Do Permiano médio ao Triássico médio.'
+            },
+            cynodontia: {
+                title: 'Cynodontia',
+                text: 'Os "dentes de cão". Grupo com dentição altamente diferenciada.',
+                timeline: '<strong>Período:</strong> Do Permiano tardio ao Jurássico.'
+            },
+            mammalia: {
+                title: 'Mammalia',
+                text: 'O grupo coroa dos mamíferos.',
+                timeline: '<strong>Período:</strong> Surgimento no Triássico tardio até o presente.'
+            }
+        };
+
+        function showDetails(nodeId) {
+            const data = cladogramData[nodeId];
+            if (data) {
+                document.getElementById('details-title').innerText = data.title;
+                document.getElementById('details-text').innerText = data.text;
+                document.getElementById('details-timeline').innerHTML = data.timeline;
+                document.getElementById('details-timeline').style.display = 'block';
+            }
+        }
+
+        console.log('Página carregada!');
+    </script>
+</body>
+</html>

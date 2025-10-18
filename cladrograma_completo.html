@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cladograma - Evolução dos Mamíferos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+        .cladogram-area {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .details-area {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: 400px;
+        }
+        .node {
+            padding: 10px;
+            margin: 5px 0;
+            background: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .node:hover {
+            background: #45a049;
+        }
+        #details-image {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Evolução dos Mamíferos - Cladograma</h1>
+    
+    <div class="container">
+        <div class="cladogram-area">
+            <h2>Cladograma</h2>
+            <div class="node" onclick="showDetails('synapsida')">Synapsida</div>
+            <div class="node" onclick="showDetails('therapsida')">Therapsida</div>
+            <div class="node" onclick="showDetails('cynodontia')">Cynodontia</div>
+            <div class="node" onclick="showDetails('mammalia')">Mammalia</div>
+        </div>
+        
+        <div class="details-area">
+            <h2>Detalhes</h2>
+            <div id="cladogram-details">
+                <h3 id="details-title">Selecione um nó</h3>
+                <img id="details-image" style="display:none;">
+                <p id="details-text">Clique em um nó do cladograma para ver informações detalhadas.</p>
+                <p id="details-timeline" style="display:none;"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JAVASCRIPT: A INTERATIVIDADE
+        
+        // 1. Banco de Dados com as informações de cada nó
+        const cladogramData = {
+            synapsida: {
+                title: 'Synapsida',
+                text: 'O ponto de partida. Grupo que se distingue por possuir uma única abertura (fenestra) temporal no crânio, atrás da órbita ocular. Essa inovação permitiu a fixação de músculos da mandíbula mais fortes e complexos.',
+                image: 'images/synapsida.jpg',
+                timeline: '<strong>Período:</strong> A partir de ~312 Milhões de anos (Carbonífero tardio).'
+            },
+            therapsida: {
+                title: 'Therapsida',
+                text: 'Um grupo derivado de Synapsida com um metabolismo mais elevado, membros posicionados mais verticalmente sob o corpo (melhorando a locomoção) e o desenvolvimento de um palato secundário, que permitia respirar enquanto comiam.',
+                image: 'images/therapsida.jpg',
+                timeline: '<strong>Período:</strong> Do Permiano médio ao Triássico médio (~275 a 200 Mya).'
+            },
+            cynodontia: {
+                title: 'Cynodontia',
+                text: 'Os "dentes de cão". Este grupo, que inclui os ancestrais diretos dos mamíferos, aprofundou as características terapsidas: dentição altamente diferenciada (heterodontia), palato secundário completo e um osso dentário dominante na mandíbula.',
+                image: 'images/cynodontia.jpg',
+                timeline: '<strong>Período:</strong> Do Permiano tardio ao Jurássico (~260 a 190 Mya).'
+            },
+            mammalia: {
+                title: 'Mammalia',
+                text: 'O grupo coroa, definido pela articulação da mandíbula formada apenas pelos ossos dentário-esquamosal. Outras características incluem pelos para isolamento térmico e glândulas mamárias para alimentar os filhotes.',
+                image: 'images/mammalia.jpg',
+                timeline: '<strong>Período:</strong> Surgimento no Triássico tardio (~225 Mya) até o presente.'
+            }
+        };
+
+        // 2. Referências aos elementos HTML que vamos modificar
+        const titleElement = document.getElementById('details-title');
+        const imageElement = document.getElementById('details-image');
+        const textElement = document.getElementById('details-text');
+        const timelineElement = document.getElementById('details-timeline');
+
+        // 3. A função principal que atualiza a área de detalhes
+        function showDetails(nodeId) {
+            console.log('Função chamada com:', nodeId); // Para debug
+            
+            const data = cladogramData[nodeId];
+
+            if (data) {
+                titleElement.innerText = data.title;
+                textElement.innerText = data.text;
+                
+                imageElement.src = data.image;
+                imageElement.style.display = 'block';
+                
+                timelineElement.innerHTML = data.timeline;
+                timelineElement.style.display = 'block';
+            } else {
+                console.error('Nó não encontrado:', nodeId);
+            }
+        }
+
+        // Teste para verificar se o script carregou
+        console.log('Script carregado com sucesso!');
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<script>
+// Aguarda o DOM carregar completamente
+document.addEventListener('DOMContentLoaded', function() {
+    // Banco de Dados
+    const cladogramData = {
+        synapsida: {
+            title: 'Synapsida',
+            text: 'O ponto de partida. Grupo que se distingue por possuir uma única abertura (fenestra) temporal no crânio, atrás da órbita ocular. Essa inovação permitiu a fixação de músculos da mandíbula mais fortes e complexos.',
+            image: 'images/synapsida.jpg',
+            timeline: '<strong>Período:</strong> A partir de ~312 Milhões de anos (Carbonífero tardio).'
+        },
+        therapsida: {
+            title: 'Therapsida',
+            text: 'Um grupo derivado de Synapsida com um metabolismo mais elevado, membros posicionados mais verticalmente sob o corpo (melhorando a locomoção) e o desenvolvimento de um palato secundário, que permitia respirar enquanto comiam.',
+            image: 'images/therapsida.jpg',
+            timeline: '<strong>Período:</strong> Do Permiano médio ao Triássico médio (~275 a 200 Mya).'
+        },
+        cynodontia: {
+            title: 'Cynodontia',
+            text: 'Os "dentes de cão". Este grupo, que inclui os ancestrais diretos dos mamíferos, aprofundou as características terapsidas: dentição altamente diferenciada (heterodontia), palato secundário completo e um osso dentário dominante na mandíbula.',
+            image: 'images/cynodontia.jpg',
+            timeline: '<strong>Período:</strong> Do Permiano tardio ao Jurássico (~260 a 190 Mya).'
+        },
+        mammalia: {
+            title: 'Mammalia',
+            text: 'O grupo coroa, definido pela articulação da mandíbula formada apenas pelos ossos dentário-esquamosal. Outras características incluem pelos para isolamento térmico e glândulas mamárias para alimentar os filhotes.',
+            image: 'images/mammalia.jpg',
+            timeline: '<strong>Período:</strong> Surgimento no Triássico tardio (~225 Mya) até o presente.'
+        }
+    };
+
+    // Referências aos elementos HTML
+    const titleElement = document.getElementById('details-title');
+    const imageElement = document.getElementById('details-image');
+    const textElement = document.getElementById('details-text');
+    const timelineElement = document.getElementById('details-timeline');
+
+    // Função para mostrar detalhes
+    function showDetails(nodeId) {
+        console.log('Chamando showDetails com:', nodeId); // Para debug
+        
+        const data = cladogramData[nodeId];
+
+        if (!data) {
+            console.error('Dados não encontrados para:', nodeId);
+            return;
+        }
+
+        if (titleElement) titleElement.innerText = data.title;
+        if (textElement) textElement.innerText = data.text;
+        
+        if (imageElement) {
+            imageElement.src = data.image;
+            imageElement.style.display = 'block';
+            // Adiciona tratamento de erro para imagens
+            imageElement.onerror = function() {
+                console.error('Erro ao carregar imagem:', data.image);
+                this.style.display = 'none';
+            };
+        }
+        
+        if (timelineElement) {
+            timelineElement.innerHTML = data.timeline;
+            timelineElement.style.display = 'block';
+        }
+    }
+
+    // Torna a função global para poder ser chamada via HTML
+    window.showDetails = showDetails;
+
+    // Teste automático (opcional - remova depois)
+    console.log('Script carregado. Funções disponíveis:', typeof showDetails);
+});
+</script>
