@@ -239,6 +239,31 @@
 
     @media (max-width: 1100px) { .mini-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 640px)  { .mini-grid { grid-template-columns: 1fr; } }
+
+    /* Glossário estilizado */
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .glossary-grid { grid-template-columns: 1fr; } }
+    .glossary dl { margin: 0; }
+    .glossary dt {
+      font-weight: 700;
+      color: var(--accent-dark);
+      background: rgba(255, 255, 255, 0.9);
+      border-left: 4px solid var(--accent);
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-top: 14px;
+    }
+    .glossary dd {
+      margin: 8px 0 12px 14px;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -567,6 +592,55 @@
         <li>Imagens e textos do seu projeto <code>cladograma_interativo</code></li>
         <li>Slides construídos com <a href="https://revealjs.com/" target="_blank">Reveal.js</a></li>
       </ul>
+    </section>
+
+    <section data-transition="fade">
+      <h2>Glossário</h2>
+      <div class="glossary glossary-grid">
+        <div>
+          <dl>
+            <dt>Sinápsidos (Synapsida)</dt>
+            <dd>Clado de amniotas com uma única fenestra temporal; inclui mamíferos e seus ancestrais fósseis.</dd>
+            <dt>Saurópsidos (Sauropsida)</dt>
+            <dd>Clado-irmão dos sinápsidos: répteis e aves.</dd>
+            <dt>Fenestra temporal</dt>
+            <dd>Abertura no crânio atrás da órbita que expande área para inserção de musculatura mandibular.</dd>
+            <dt>Heterodontia</dt>
+            <dd>Dentição diferenciada (incisivos, caninos, pré-molares, molares) com funções distintas.</dd>
+            <dt>Palato secundário</dt>
+            <dd>Separação entre cavidades oral e nasal, permitindo mastigação e respiração simultâneas.</dd>
+            <dt>Articular–quadrado</dt>
+            <dd>Articulação mandibular ancestral dos amniotas (osso articular da mandíbula com quadrado do crânio).</dd>
+            <dt>Dentário–esquamosal</dt>
+            <dd>Articulação mandibular típica de mamíferos (osso dentário com esquamosal).</dd>
+            <dt>Exaptação</dt>
+            <dd>Cooptação de uma estrutura para nova função (ex.: articular/quadrado → martelo/bigorna).</dd>
+          </dl>
+        </div>
+        <div>
+          <dl>
+            <dt>Endotermia / Ectotermia</dt>
+            <dd>Produção interna de calor vs. dependência do ambiente para a regulação térmica.</dd>
+            <dt>Cynodontia (Cinodontes)</dt>
+            <dd>Subgrupo de terapsídeos com traços pré-mamalianos marcantes (palato, heterodontia, dentário expandido).</dd>
+            <dt>Mammaliaformes</dt>
+            <dd>Grupo próximo à base de Mammalia, com muitas características de mamíferos.</dd>
+            <dt>Tribosfênico</dt>
+            <dd>Padrão de molar mamaliano com cúspides que permitem trituração e cisalhamento eficientes.</dd>
+            <dt>Postura esparramada/ereta</dt>
+            <dd>Ângulo dos membros em relação ao tronco; esparramada (lateral) vs. ereta (sob o corpo).</dd>
+            <dt>Anápsidos / Diápsidos</dt>
+            <dd>Amniotas sem fenestras temporais (anápsidos) vs. com duas fenestras (diápsidos).</dd>
+            <dt>Sinapomorfia</dt>
+            <dd>Caráter derivado compartilhado que define e sustenta um clado.</dd>
+            <dt>Irradiação adaptativa</dt>
+            <dd>Rápida diversificação de um grupo em múltiplos nichos ecológicos.</dd>
+            <dt>“Gargalo noturno”</dt>
+            <dd>Hipótese de que ancestrais mamalianos tiveram hábitos noturnos, influenciando adaptações sensoriais e fisiológicas.</dd>
+          </dl>
+        </div>
+      </div>
+      <p class="note">Termos usados ao longo dos slides para facilitar a revisão durante a apresentação.</p>
     </section>
 
   </div>
