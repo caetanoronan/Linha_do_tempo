@@ -383,31 +383,27 @@ function drawCladogram() {
             .style('stroke-width', '2');
     });
 
+    // Linha principal vertical do cladograma
+    g.append('line')
+        .attr('class', 'branch')
+        .attr('x1', 80)
+        .attr('y1', 100)
+        .attr('x2', 80)
+        .attr('y2', 600);
+
     // Desenhar linhas do cladograma
     Object.entries(cladogramData).forEach(([key, data], index) => {
-        const startX = 100 + (index * 70);
-        
-        // Linha horizontal para o táxon
+        // Linha horizontal do tronco principal até o táxon
         g.append('line')
             .attr('class', 'branch')
-            .attr('x1', startX)
+            .attr('x1', 80)
             .attr('y1', data.y)
             .attr('x2', 350)
             .attr('y2', data.y);
 
-        // Linha vertical conectando ao próximo táxon (exceto para o último)
-        if (index < Object.entries(cladogramData).length - 1) {
-            g.append('line')
-                .attr('class', 'branch')
-                .attr('x1', startX)
-                .attr('y1', data.y)
-                .attr('x2', startX)
-                .attr('y2', Object.values(cladogramData)[index + 1].y);
-        }
-
         // Adicionar rótulo de idade na linha
         g.append('foreignObject')
-            .attr('x', startX - 30)
+            .attr('x', 180)
             .attr('y', data.y - 50)
             .attr('width', 60)
             .attr('height', 28)
