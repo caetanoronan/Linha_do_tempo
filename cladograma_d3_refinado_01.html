@@ -359,21 +359,7 @@ function drawCladogram() {
     // Limpar o SVG
     g.selectAll('*').remove();
 
-    // Adicionar escala de tempo primeiro (no fundo)
-    const timeScale = d3.scaleLinear()
-        .domain([300, 0])
-        .range([80, 750]);
-
-    const timeAxis = d3.axisLeft(timeScale)
-        .ticks(8)
-        .tickFormat(d => `${d} Ma`);
-
-    g.append('g')
-        .attr('class', 'time-axis')
-        .attr('transform', 'translate(120,0)')
-        .call(timeAxis);
-
-    // Grupos taxonômicos (mais espaçados)
+    // Grupos taxonômicos
     const groups = [
         { name: 'Cynodontia', y: 160, height: 240 },
         { name: 'Eucynodontia', y: 340, height: 300 },
@@ -384,22 +370,22 @@ function drawCladogram() {
     groups.forEach(group => {
         g.append('text')
             .attr('class', 'group-label')
-            .attr('x', 25)
+            .attr('x', 30)
             .attr('y', group.y)
-            .attr('transform', `rotate(-90, 25, ${group.y})`)
+            .attr('transform', `rotate(-90, 30, ${group.y})`)
             .text(group.name);
 
-        // Colchetes dos grupos (mais finos)
+        // Colchetes dos grupos
         g.append('path')
             .attr('class', 'branch')
-            .attr('d', `M40,${group.y - group.height/2} L60,${group.y - group.height/2} L60,${group.y + group.height/2} L40,${group.y + group.height/2}`)
+            .attr('d', `M50,${group.y - group.height/2} L80,${group.y - group.height/2} L80,${group.y + group.height/2} L50,${group.y + group.height/2}`)
             .style('fill', 'none')
-            .style('stroke-width', '1.5');
+            .style('stroke-width', '2');
     });
 
-    // Desenhar linhas do cladograma (mais espaçadas)
+    // Desenhar linhas do cladograma
     Object.entries(cladogramData).forEach(([key, data], index) => {
-        const startX = 140 + (index * 70);
+        const startX = 100 + (index * 70);
         
         // Linha horizontal para o táxon
         g.append('line')
@@ -419,7 +405,7 @@ function drawCladogram() {
                 .attr('y2', Object.values(cladogramData)[index + 1].y);
         }
 
-        // Adicionar rótulo de idade na linha (mais afastado)
+        // Adicionar rótulo de idade na linha
         g.append('foreignObject')
             .attr('x', startX - 30)
             .attr('y', data.y - 50)
