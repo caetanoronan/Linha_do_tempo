@@ -197,6 +197,48 @@
       font-family: 'Monaco', 'Courier New', monospace;
       border: 1px solid rgba(25, 113, 194, 0.3);
     }
+
+    /* Mini tabela comparativa (cards + chips) */
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      align-items: stretch;
+      padding: 10px 0;
+    }
+
+    .mini-grid .card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .mini-grid .card h3 {
+      margin: 0 0 10px 0;
+      color: var(--text-dark);
+      font-size: 1.1em;
+    }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: .75em;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .chip-gray  { background: #f1f3f5; color: #343a40; border-color: #e9ecef; }
+    .chip-amber { background: #fff3bf; color: #8d5e0a; border-color: #ffe08a; }
+    .chip-green { background: #d3f9d8; color: #2b8a3e; border-color: #b2f2bb; }
+    .chip-blue  { background: #e7f5ff; color: #1971c2; border-color: #a5d8ff; }
+    .chip-purple{ background: #f3f0ff; color: #7048e8; border-color: #d0bfff; }
+    .chip-red   { background: #ffe3e3; color: #e03131; border-color: #ffa8a8; }
+
+    @media (max-width: 1100px) { .mini-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px)  { .mini-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -265,6 +307,57 @@
         </div>
       </div>
       <p class="note">Evidência de <em>evolução em mosaico</em>: caracteres surgem em momentos diferentes.</p>
+    </section>
+
+    <section data-transition="fade">
+      <h2>Tabela comparativa (mini)</h2>
+      <div class="mini-grid">
+        <div class="card">
+          <h3>Pelycosauria</h3>
+          <div class="chips">
+            <span class="chip chip-gray">🕳️ fenestra pequena</span>
+            <span class="chip chip-red">palato ✖</span>
+            <span class="chip chip-gray">mandíbula AQ</span>
+            <span class="chip chip-gray">🦷 homodonte</span>
+            <span class="chip chip-gray">🐊 esparramada</span>
+            <span class="chip chip-blue">❄️ ectotermia</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Therapsida basal</h3>
+          <div class="chips">
+            <span class="chip chip-blue">🕳️ fenestra ↑</span>
+            <span class="chip chip-amber">palato ◐</span>
+            <span class="chip chip-amber">mandíbula mista</span>
+            <span class="chip chip-amber">🦷 heterodonte simples</span>
+            <span class="chip chip-amber">🐾 semi-ereta</span>
+            <span class="chip chip-amber">♨️ endotermia incipiente</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Cynodontia avançados</h3>
+          <div class="chips">
+            <span class="chip chip-purple">🕳️ ampla</span>
+            <span class="chip chip-green">palato ✔</span>
+            <span class="chip chip-green">mandíbula dupla → D–E</span>
+            <span class="chip chip-green">🦷 heterodonte complexa</span>
+            <span class="chip chip-green">🐾 ereta</span>
+            <span class="chip chip-green">🔥 endotermia</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Mammaliaformes</h3>
+          <div class="chips">
+            <span class="chip chip-purple">🕳️ confluente</span>
+            <span class="chip chip-green">palato ✔</span>
+            <span class="chip chip-green">mandíbula D–E</span>
+            <span class="chip chip-green">🦷 tribosfênica/complexa</span>
+            <span class="chip chip-green">🐾 ereta</span>
+            <span class="chip chip-green">🔥 endotermia</span>
+          </div>
+        </div>
+      </div>
+      <p class="note">Ícones: 🕳️ fenestra; 🦷 dentição; 🐾 postura; ♨️/🔥 metabolismo. Cores: cinza = ancestral; âmbar = intermediário; verde = derivado.</p>
     </section>
 
     <section data-transition="zoom">
