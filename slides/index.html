@@ -271,6 +271,7 @@
   <button onclick="toggleTheme()">Alternar tema</button>
   <a class="badge" href="/Linha_do_tempo/cladograma_d3_refinado_01.html" target="_blank">Abrir cladograma em nova guia</a>
   <a class="badge" href="/Linha_do_tempo/artigos/origem-mamiferos.html" target="_blank">Abrir artigo base</a>
+  <a class="badge" href="#" onclick="goToSlide('glossario'); return false;">Ver Glossário</a>
 </div>
 <div class="reveal">
   <div class="slides">
@@ -295,7 +296,7 @@
       <aside class="notes">Contextualizar o grupo Cynodontia, período geológico e principais transições anatômicas.</aside>
     </section>
 
-    <section data-transition="fade">
+    <section id="fenestra" data-transition="fade">
       <h2>Arquitetura Craniana: Fenestra Temporal</h2>
       <div class="two-col">
         <div>
@@ -313,7 +314,7 @@
       </div>
     </section>
 
-    <section data-transition="concave">
+    <section id="transicoes" data-transition="concave">
       <h2>Transições Anatômicas: Resumo</h2>
       <div class="two-col">
         <div>
@@ -385,7 +386,7 @@
       <p class="note">Ícones: 🕳️ fenestra; 🦷 dentição; 🐾 postura; ♨️/🔥 metabolismo. Cores: cinza = ancestral; âmbar = intermediário; verde = derivado.</p>
     </section>
 
-    <section data-transition="zoom">
+    <section id="mastigacao" data-transition="zoom">
       <h2>Mastigação e Exaptação do Ouvido Médio</h2>
       <div class="two-col">
         <div>
@@ -401,7 +402,7 @@
       </div>
     </section>
 
-    <section data-transition="slide">
+    <section id="objetivos" data-transition="slide">
       <h2>Objetivos da Aula</h2>
       <div class="two-col">
         <div>
@@ -425,7 +426,7 @@
       <p class="note">Síntese baseada no material “A Odisseia Sinápsida: Origem dos Mamíferos em Sinápsidos”.</p>
     </section>
 
-    <section data-transition="convex">
+    <section id="synapsida" data-transition="convex">
       <h2>Contexto Evolutivo: Synapsida</h2>
       <div class="two-col">
         <div>
@@ -442,19 +443,19 @@
       </div>
     </section>
 
-    <section>
+    <section id="therapsida">
       <h2>Therapsida: Rumo aos Mamíferos</h2>
       <img src="/Linha_do_tempo/images/therapsida.jpg" alt="Therapsida" style="max-width:80%; border-radius:8px;">
       <p>Grupo dentro de Synapsida que mostra características progressivamente mais mamalianas</p>
     </section>
 
-    <section>
+    <section id="irradiacao">
       <h2>Irradiação dos Sinápsidos</h2>
       <img src="/Linha_do_tempo/assets/irradiacao_sinapsida.png" alt="Irradiação de Synapsida" style="max-width:85%; border-radius:8px;">
       <p class="note">Diversificação e radiação adaptativa do grupo ao longo do tempo geológico</p>
     </section>
 
-    <section>
+    <section id="cladograma">
       <h2>Cladograma Interativo</h2>
       <div class="two-col">
         <div>
@@ -469,7 +470,7 @@
       <aside class="notes">Passe por Procynosuchus → Thrinaxodon → Cynognathus → Morganucodon → Ornithorhynchus.</aside>
     </section>
 
-    <section>
+    <section id="cynodontia">
       <h2>Cynodontia: Características-chave</h2>
       <div class="two-col">
         <div>
@@ -487,7 +488,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="procynosuchus">
       <h2>Táxons-chave: Procynosuchus</h2>
       <div class="two-col">
         <div>
@@ -500,7 +501,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="thrinaxodon">
       <h2>Táxons-chave: Thrinaxodon</h2>
       <div class="two-col">
         <div>
@@ -513,7 +514,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="cynognathus">
       <h2>Táxons-chave: Cynognathus</h2>
       <div class="two-col">
         <div>
@@ -526,7 +527,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="morganucodon">
       <h2>Táxons-chave: Morganucodon</h2>
       <div class="two-col">
         <div>
@@ -539,7 +540,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="mammaliaformes">
       <h2>Mammaliaformes Modernos</h2>
       <div class="two-col">
         <div>
@@ -552,32 +553,32 @@
       </div>
     </section>
 
-    <section>
+    <section id="transicao-craniana">
       <h2>Transição Craniana</h2>
       <img src="/Linha_do_tempo/assets/transicao_craniana.png" alt="Transição craniana" style="max-width:85%; border-radius:8px;">
       <p class="note">Evolução das estruturas cranianas de cinodontes basais até mamíferos</p>
     </section>
 
-    <section>
+    <section id="linha-tempo">
       <h2>Linha do Tempo Geológica</h2>
       <img src="/Linha_do_tempo/assets/grafico_linha_tempo.png" alt="Linha do tempo" style="max-width:85%; border-radius:8px;">
       <p class="note">Distribuição temporal dos principais grupos</p>
     </section>
 
-    <section>
+    <section id="mapa-fosseis">
       <h2>Distribuição Geográfica dos Fósseis</h2>
       <img src="/Linha_do_tempo/assets/mapa_fosseis_sinapsidas.png" alt="Mapa de fósseis" style="max-width:85%; border-radius:8px;">
       <p class="note">Locais de descoberta de fósseis de sinápsidos ao redor do mundo</p>
     </section>
 
-    <section>
+    <section id="pdf-apoio">
       <h2>Leitura de Apoio (PDF)</h2>
       <p>Documento: "Origem dos Mamíferos em Sinápsidos"</p>
       <iframe class="embedded" src="/Linha_do_tempo/assets/origem-mamiferos-sinapsidos.pdf#page=1&zoom=page-width"></iframe>
       <p class="note">Se o PDF não carregar, <a target="_blank" href="/Linha_do_tempo/assets/origem-mamiferos-sinapsidos.pdf">abra em nova guia</a>.</p>
     </section>
 
-    <section>
+    <section id="discussao">
       <h2>Discussão</h2>
       <ul>
         <li>Quais características são sinapomorfias de Mammalia?</li>
@@ -586,7 +587,7 @@
       </ul>
     </section>
 
-    <section>
+    <section id="creditos">
       <h2>Créditos e Referências</h2>
       <ul>
         <li>Imagens e textos do seu projeto <code>cladograma_interativo</code></li>
@@ -594,7 +595,7 @@
       </ul>
     </section>
 
-    <section data-transition="fade">
+    <section id="glossario" data-transition="fade">
       <h2>Glossário</h2>
       <div class="glossary glossary-grid">
         <div>
@@ -604,39 +605,45 @@
             <dt>Saurópsidos (Sauropsida)</dt>
             <dd>Clado-irmão dos sinápsidos: répteis e aves.</dd>
             <dt>Fenestra temporal</dt>
-            <dd>Abertura no crânio atrás da órbita que expande área para inserção de musculatura mandibular.</dd>
+            <dd>Abertura no crânio atrás da órbita que expande área para inserção de musculatura mandibular. <a href="#" onclick="goToSlide('fenestra'); return false;">ver slide</a></dd>
             <dt>Heterodontia</dt>
-            <dd>Dentição diferenciada (incisivos, caninos, pré-molares, molares) com funções distintas.</dd>
+            <dd>Dentição diferenciada (incisivos, caninos, pré-molares, molares) com funções distintas. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
             <dt>Palato secundário</dt>
-            <dd>Separação entre cavidades oral e nasal, permitindo mastigação e respiração simultâneas.</dd>
+            <dd>Separação entre cavidades oral e nasal, permitindo mastigação e respiração simultâneas. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
             <dt>Articular–quadrado</dt>
-            <dd>Articulação mandibular ancestral dos amniotas (osso articular da mandíbula com quadrado do crânio).</dd>
+            <dd>Articulação mandibular ancestral dos amniotas (osso articular da mandíbula com quadrado do crânio). <a href="#" onclick="goToSlide('mastigacao'); return false;">ver slide</a></dd>
             <dt>Dentário–esquamosal</dt>
-            <dd>Articulação mandibular típica de mamíferos (osso dentário com esquamosal).</dd>
+            <dd>Articulação mandibular típica de mamíferos (osso dentário com esquamosal). <a href="#" onclick="goToSlide('mastigacao'); return false;">ver slide</a></dd>
             <dt>Exaptação</dt>
-            <dd>Cooptação de uma estrutura para nova função (ex.: articular/quadrado → martelo/bigorna).</dd>
+            <dd>Cooptação de uma estrutura para nova função (ex.: articular/quadrado → martelo/bigorna). <a href="#" onclick="goToSlide('mastigacao'); return false;">ver slide</a></dd>
           </dl>
         </div>
         <div>
           <dl>
             <dt>Endotermia / Ectotermia</dt>
-            <dd>Produção interna de calor vs. dependência do ambiente para a regulação térmica.</dd>
+            <dd>Produção interna de calor vs. dependência do ambiente para a regulação térmica. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
             <dt>Cynodontia (Cinodontes)</dt>
-            <dd>Subgrupo de terapsídeos com traços pré-mamalianos marcantes (palato, heterodontia, dentário expandido).</dd>
+            <dd>Subgrupo de terapsídeos com traços pré-mamalianos marcantes (palato, heterodontia, dentário expandido). <a href="#" onclick="goToSlide('cynodontia'); return false;">ver slide</a></dd>
             <dt>Mammaliaformes</dt>
-            <dd>Grupo próximo à base de Mammalia, com muitas características de mamíferos.</dd>
+            <dd>Grupo próximo à base de Mammalia, com muitas características de mamíferos. <a href="#" onclick="goToSlide('mammaliaformes'); return false;">ver slide</a></dd>
             <dt>Tribosfênico</dt>
-            <dd>Padrão de molar mamaliano com cúspides que permitem trituração e cisalhamento eficientes.</dd>
+            <dd>Padrão de molar mamaliano com cúspides que permitem trituração e cisalhamento eficientes. <a href="#" onclick="goToSlide('mammaliaformes'); return false;">ver slide</a></dd>
             <dt>Postura esparramada/ereta</dt>
-            <dd>Ângulo dos membros em relação ao tronco; esparramada (lateral) vs. ereta (sob o corpo).</dd>
+            <dd>Ângulo dos membros em relação ao tronco; esparramada (lateral) vs. ereta (sob o corpo). <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
             <dt>Anápsidos / Diápsidos</dt>
-            <dd>Amniotas sem fenestras temporais (anápsidos) vs. com duas fenestras (diápsidos).</dd>
+            <dd>Amniotas sem fenestras temporais (anápsidos) vs. com duas fenestras (diápsidos). <a href="#" onclick="goToSlide('fenestra'); return false;">ver slide</a></dd>
             <dt>Sinapomorfia</dt>
-            <dd>Caráter derivado compartilhado que define e sustenta um clado.</dd>
+            <dd>Caráter derivado compartilhado que define e sustenta um clado. <a href="#" onclick="goToSlide('cladograma'); return false;">ver slide</a></dd>
             <dt>Irradiação adaptativa</dt>
-            <dd>Rápida diversificação de um grupo em múltiplos nichos ecológicos.</dd>
+            <dd>Rápida diversificação de um grupo em múltiplos nichos ecológicos. <a href="#" onclick="goToSlide('irradiacao'); return false;">ver slide</a></dd>
             <dt>“Gargalo noturno”</dt>
-            <dd>Hipótese de que ancestrais mamalianos tiveram hábitos noturnos, influenciando adaptações sensoriais e fisiológicas.</dd>
+            <dd>Hipótese de que ancestrais mamalianos tiveram hábitos noturnos, influenciando adaptações sensoriais e fisiológicas. <a href="#" onclick="goToSlide('objetivos'); return false;">ver slide</a></dd>
+            <dt>Metatarsos digitígrados</dt>
+            <dd>Padrão de apoio nos dedos (digitígrado), associado a locomoção mais eficiente. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
+            <dt>Narinas secundárias</dt>
+            <dd>Aberturas internas (coanas) recuadas pelo palato secundário, separando fluxo aéreo da cavidade oral. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
+            <dt>Diafragma</dt>
+            <dd>Músculo respiratório que separa tórax e abdômen; indícios em cinodontes sugerem ventilação eficiente. <a href="#" onclick="goToSlide('thrinaxodon'); return false;">ver slide</a></dd>
           </dl>
         </div>
       </div>
@@ -709,6 +716,15 @@
     const btn = event.target;
     btn.style.transform = 'scale(0.95)';
     setTimeout(() => btn.style.transform = 'scale(1)', 150);
+  }
+
+  // Navegar para um slide pelo id da section
+  function goToSlide(id){
+    const target = document.querySelector(`.slides section#${id}`);
+    if(!target) return;
+    const sections = Array.from(document.querySelectorAll('.slides > section'));
+    const h = sections.indexOf(target);
+    if(h >= 0){ deck.slide(h); }
   }
 </script>
 </body>
