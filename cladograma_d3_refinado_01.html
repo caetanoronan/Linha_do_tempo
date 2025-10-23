@@ -359,40 +359,54 @@ function drawCladogram() {
     // Limpar o SVG
     g.selectAll('*').remove();
 
-    // Grupos taxonômicos
+    // Adicionar escala de tempo primeiro (no fundo)
+    const timeScale = d3.scaleLinear()
+        .domain([300, 0])
+        .range([80, 750]);
+
+    const timeAxis = d3.axisLeft(timeScale)
+        .ticks(8)
+        .tickFormat(d => `${d} Ma`);
+
+    g.append('g')
+        .attr('class', 'time-axis')
+        .attr('transform', 'translate(120,0)')
+        .call(timeAxis);
+
+    // Grupos taxonômicos (mais espaçados)
     const groups = [
-        { name: 'Cynodontia', y: 140, height: 280 },
-        { name: 'Eucynodontia', y: 300, height: 350 },
-        { name: 'Mammaliaformes', y: 500, height: 250 }
+        { name: 'Cynodontia', y: 160, height: 240 },
+        { name: 'Eucynodontia', y: 340, height: 300 },
+        { name: 'Mammaliaformes', y: 550, height: 200 }
     ];
 
     // Desenhar grupos
     groups.forEach(group => {
         g.append('text')
             .attr('class', 'group-label')
-            .attr('x', 35)
+            .attr('x', 25)
             .attr('y', group.y)
-            .attr('transform', `rotate(-90, 35, ${group.y})`)
+            .attr('transform', `rotate(-90, 25, ${group.y})`)
             .text(group.name);
 
-        // Colchetes dos grupos
+        // Colchetes dos grupos (mais finos)
         g.append('path')
             .attr('class', 'branch')
-            .attr('d', `M50,${group.y - group.height/2} L70,${group.y - group.height/2} L70,${group.y + group.height/2} L50,${group.y + group.height/2}`)
+            .attr('d', `M40,${group.y - group.height/2} L60,${group.y - group.height/2} L60,${group.y + group.height/2} L40,${group.y + group.height/2}`)
             .style('fill', 'none')
-            .style('stroke-width', '2');
+            .style('stroke-width', '1.5');
     });
 
-    // Desenhar linhas do cladograma
+    // Desenhar linhas do cladograma (mais espaçadas)
     Object.entries(cladogramData).forEach(([key, data], index) => {
-        const startX = 80 + (index * 55);
+        const startX = 140 + (index * 70);
         
         // Linha horizontal para o táxon
         g.append('line')
             .attr('class', 'branch')
             .attr('x1', startX)
             .attr('y1', data.y)
-            .attr('x2', 320)
+            .attr('x2', 350)
             .attr('y2', data.y);
 
         // Linha vertical conectando ao próximo táxon (exceto para o último)
@@ -405,12 +419,12 @@ function drawCladogram() {
                 .attr('y2', Object.values(cladogramData)[index + 1].y);
         }
 
-        // Adicionar rótulo de idade na linha
+        // Adicionar rótulo de idade na linha (mais afastado)
         g.append('foreignObject')
-            .attr('x', startX - 35)
-            .attr('y', data.y - 40)
-            .attr('width', 70)
-            .attr('height', 30)
+            .attr('x', startX - 30)
+            .attr('y', data.y - 50)
+            .attr('width', 60)
+            .attr('height', 28)
             .append('xhtml:div')
             .attr('class', 'age-label')
             .style('text-align', 'center')
@@ -418,8 +432,8 @@ function drawCladogram() {
 
         // Adicionar nome do táxon
         const taxonGroup = g.append('foreignObject')
-            .attr('x', 320)
-            .attr('y', data.y - 15)
+            .attr('x', 350)
+            .attr('y', data.y - 18)
             .attr('width', 200)
             .attr('height', 40);
 
@@ -431,10 +445,10 @@ function drawCladogram() {
 
         // Adicionar imagem do crânio
         const imageGroup = g.append('foreignObject')
-            .attr('x', 540)
-            .attr('y', data.y - 40)
+            .attr('x', 570)
+            .attr('y', data.y - 45)
             .attr('width', 130)
-            .attr('height', 90);
+            .attr('height', 95);
 
         imageGroup.append('xhtml:img')
             .attr('class', 'skull-image')
@@ -442,20 +456,6 @@ function drawCladogram() {
             .style('cursor', 'pointer')
             .on('click', () => showDetails(key));
     });
-
-    // Adicionar escala de tempo
-    const timeScale = d3.scaleLinear()
-        .domain([300, 0])
-        .range([60, 750]);
-
-    const timeAxis = d3.axisLeft(timeScale)
-        .ticks(8)
-        .tickFormat(d => `${d} Ma`);
-
-    g.append('g')
-        .attr('class', 'time-axis')
-        .attr('transform', 'translate(50,0)')
-        .call(timeAxis);
 }
 
 // Função para mostrar detalhes
