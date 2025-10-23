@@ -7,14 +7,15 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         :root {
-            --bg-color: #ffffff;
-            --text-color: #212529;
-            --border-color: #dee2e6;
-            --card-bg: #f8f9fa;
-            --accent-color: #0d6efd;
-            --hover-color: rgba(255, 235, 59, 0.5);
-            --era-bg: #e9ecef;
-            --shadow: rgba(0,0,0,0.1);
+            --bg-color: #FFEE8C;
+            --text-color: #1a1a1a;
+            --border-color: #e0d47a;
+            --card-bg: #fffef0;
+            --accent-color: #1971c2;
+            --hover-color: rgba(255, 235, 59, 0.7);
+            --era-bg: #fff9d6;
+            --shadow: rgba(0,0,0,0.12);
+            --branch-color: #2c3e50;
         }
 
         .dark-mode {
@@ -26,153 +27,215 @@
             --hover-color: rgba(255, 193, 7, 0.3);
             --era-bg: #343a40;
             --shadow: rgba(0,0,0,0.3);
+            --branch-color: #adb5bd;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #FFEE8C 0%, #FFE066 100%);
             color: var(--text-color);
             transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+        
+        .dark-mode body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
         }
 
         .wrapper {
             display: flex;
-            gap: 40px;
+            gap: 30px;
             width: 100%;
-            max-width: 1500px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
         .cladogram-container {
             position: relative;
-            width: 1000px;
-            height: 750px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: var(--bg-color);
+            flex: 1;
+            min-width: 900px;
+            height: 800px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            overflow: visible;
+            background-color: var(--card-bg);
+            box-shadow: 0 8px 24px var(--shadow);
         }
 
         .taxon-name {
-            font-size: 14px;
+            font-size: 16px;
             font-style: italic;
+            font-weight: 500;
             cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 6px;
             transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--border-color);
         }
 
         .taxon-name:hover {
             background-color: var(--hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow);
         }
 
         .taxon-name.active {
             background-color: var(--accent-color);
             color: white;
+            border-color: var(--accent-color);
+            font-weight: 600;
         }
 
         .skull-image {
-            width: 150px;
-            height: auto;
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
             cursor: pointer;
             transition: all 0.3s ease;
-            filter: drop-shadow(0 2px 3px var(--shadow));
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background: white;
+            padding: 4px;
+            filter: drop-shadow(0 2px 4px var(--shadow));
         }
 
         .skull-image:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 4px 6px var(--shadow));
+            transform: scale(1.15);
+            filter: drop-shadow(0 6px 12px var(--shadow));
+            border-color: var(--accent-color);
+            z-index: 10;
         }
 
         .age-label {
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: 600;
             color: var(--text-color);
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.9);
-            border: 1px solid var(--border-color);
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 2px 4px var(--shadow);
         }
 
         .dark-mode .age-label {
-            background: rgba(45, 55, 72, 0.9);
+            background: rgba(45, 55, 72, 0.95);
             color: #e9ecef;
         }
 
         .branch {
-            stroke: var(--text-color);
-            stroke-width: 2;
+            stroke: var(--branch-color);
+            stroke-width: 3;
             fill: none;
+            stroke-linecap: round;
         }
 
         .group-label {
-            font-weight: bold;
-            font-size: 16px;
-            color: var(--text-color);
-            opacity: 0.8;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--accent-color);
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .details-container {
             width: 450px;
-            padding: 25px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            padding: 30px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
             background-color: var(--card-bg);
             position: sticky;
             top: 20px;
+            height: fit-content;
+            box-shadow: 0 8px 24px var(--shadow);
         }
 
         .details-container h2 { 
             margin-top: 0; 
-            color: var(--text-color); 
-            font-size: 24px; 
+            margin-bottom: 20px;
+            color: var(--accent-color); 
+            font-size: 28px;
+            font-weight: 700;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
         }
 
         .details-container img { 
-            max-width: 100%; 
-            border-radius: 4px; 
-            margin-bottom: 15px; 
-            border: 1px solid var(--border-color); 
+            width: 100%;
+            height: auto;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            border: 2px solid var(--border-color);
+            background: white;
+            padding: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .details-container p {
+            line-height: 1.7;
+            font-size: 15px;
+            color: var(--text-color);
         }
 
         .era { 
-            font-size: 1em; 
+            font-size: 15px; 
             color: var(--text-color); 
             background-color: var(--era-bg); 
-            padding: 12px; 
-            border-radius: 4px; 
-            margin-top: 15px; 
-            border-left: 5px solid var(--accent-color); 
+            padding: 15px 18px; 
+            border-radius: 8px; 
+            margin-top: 20px; 
+            border-left: 5px solid var(--accent-color);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .era strong {
+            color: var(--accent-color);
         }
 
         .controls {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: var(--card-bg);
-            padding: 8px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px var(--shadow);
-            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow);
+            border: 2px solid var(--border-color);
             display: flex;
-            gap: 5px;
+            gap: 8px;
+            z-index: 100;
         }
 
         .theme-toggle {
             background: var(--accent-color);
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 10px 16px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 6px var(--shadow);
         }
 
         .theme-toggle:hover {
             opacity: 0.9;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px var(--shadow);
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+            font-size: 32px;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px var(--shadow);
         }
 
         .time-axis text {
@@ -187,6 +250,8 @@
 </head>
 <body>
 
+<h1>🦴 Cladograma Interativo: Evolução de Cynodontia → Mammalia</h1>
+
 <div class="wrapper">
     <div class="cladogram-container">
         <div class="controls">
@@ -198,9 +263,9 @@
     </div>
 
     <div class="details-container">
-        <h2 id="details-title">Cladograma de Cynodontia</h2>
+        <h2 id="details-title">Bem-vindo!</h2>
         <img id="details-image" src="images/cladogram-overview.png" alt="Visão geral">
-        <p id="details-text">Clique em um táxon para ver os detalhes. Este cladograma mostra a transição gradual de cinodontes basais para formas mais derivadas, culminando nos mamíferos. As principais mudanças ocorreram na mandíbula, dentição e ouvido médio.</p>
+        <p id="details-text"><strong>👆 Clique em um táxon para ver os detalhes.</strong><br><br>Este cladograma mostra a transição gradual de cinodontes basais para formas mais derivadas, culminando nos mamíferos modernos. As principais transformações ocorreram na estrutura da mandíbula, dentição heterodonte e evolução do ouvido médio.</p>
         <div id="details-era" class="era" style="display:none;"></div>
     </div>
 </div>
@@ -296,37 +361,38 @@ function drawCladogram() {
 
     // Grupos taxonômicos
     const groups = [
-        { name: 'Cynodontia', y: 120, height: 280 },
-        { name: 'Eucynodontia', y: 270, height: 350 },
-        { name: 'Mammaliaformes', y: 460, height: 250 }
+        { name: 'Cynodontia', y: 140, height: 280 },
+        { name: 'Eucynodontia', y: 300, height: 350 },
+        { name: 'Mammaliaformes', y: 500, height: 250 }
     ];
 
     // Desenhar grupos
     groups.forEach(group => {
         g.append('text')
             .attr('class', 'group-label')
-            .attr('x', 30)
+            .attr('x', 35)
             .attr('y', group.y)
-            .attr('transform', `rotate(-90, 30, ${group.y})`)
+            .attr('transform', `rotate(-90, 35, ${group.y})`)
             .text(group.name);
 
         // Colchetes dos grupos
         g.append('path')
             .attr('class', 'branch')
-            .attr('d', `M40,${group.y - group.height/2} L55,${group.y - group.height/2} L55,${group.y + group.height/2} L40,${group.y + group.height/2}`)
-            .style('fill', 'none');
+            .attr('d', `M50,${group.y - group.height/2} L70,${group.y - group.height/2} L70,${group.y + group.height/2} L50,${group.y + group.height/2}`)
+            .style('fill', 'none')
+            .style('stroke-width', '2');
     });
 
     // Desenhar linhas do cladograma
     Object.entries(cladogramData).forEach(([key, data], index) => {
-        const startX = 60 + (index * 50);
+        const startX = 80 + (index * 55);
         
         // Linha horizontal para o táxon
         g.append('line')
             .attr('class', 'branch')
             .attr('x1', startX)
             .attr('y1', data.y)
-            .attr('x2', 280)
+            .attr('x2', 320)
             .attr('y2', data.y);
 
         // Linha vertical conectando ao próximo táxon (exceto para o último)
@@ -339,50 +405,56 @@ function drawCladogram() {
                 .attr('y2', Object.values(cladogramData)[index + 1].y);
         }
 
-        // Adicionar nome do táxon
-        const taxonGroup = g.append('g')
-            .attr('class', 'taxon-group')
-            .attr('transform', `translate(280,${data.y - 10})`);
+        // Adicionar rótulo de idade na linha
+        g.append('foreignObject')
+            .attr('x', startX - 35)
+            .attr('y', data.y - 40)
+            .attr('width', 70)
+            .attr('height', 30)
+            .append('xhtml:div')
+            .attr('class', 'age-label')
+            .style('text-align', 'center')
+            .text(`${data.age} Ma`);
 
-        taxonGroup.append('text')
+        // Adicionar nome do táxon
+        const taxonGroup = g.append('foreignObject')
+            .attr('x', 320)
+            .attr('y', data.y - 15)
+            .attr('width', 200)
+            .attr('height', 40);
+
+        taxonGroup.append('xhtml:div')
             .attr('class', 'taxon-name')
             .text(data.title)
-            .style('pointer-events', 'all')
+            .style('cursor', 'pointer')
             .on('click', () => showDetails(key));
 
         // Adicionar imagem do crânio
-        const imageGroup = g.append('g')
-            .attr('transform', `translate(450,${data.y - 30})`);
+        const imageGroup = g.append('foreignObject')
+            .attr('x', 540)
+            .attr('y', data.y - 40)
+            .attr('width', 130)
+            .attr('height', 90);
 
-        imageGroup.append('image')
+        imageGroup.append('xhtml:img')
             .attr('class', 'skull-image')
-            .attr('href', data.image)
-            .attr('width', 150)
-            .attr('height', 100)
+            .attr('src', data.image)
             .style('cursor', 'pointer')
-            .style('pointer-events', 'all')
             .on('click', () => showDetails(key));
-
-        // Adicionar rótulo de idade
-        g.append('text')
-            .attr('class', 'age-label')
-            .attr('x', 420)
-            .attr('y', data.y + 5)
-            .text(`${data.age} Ma`);
     });
 
     // Adicionar escala de tempo
     const timeScale = d3.scaleLinear()
         .domain([300, 0])
-        .range([40, 720]);
+        .range([60, 750]);
 
     const timeAxis = d3.axisLeft(timeScale)
-        .ticks(7)
+        .ticks(8)
         .tickFormat(d => `${d} Ma`);
 
     g.append('g')
         .attr('class', 'time-axis')
-        .attr('transform', 'translate(40,0)')
+        .attr('transform', 'translate(50,0)')
         .call(timeAxis);
 }
 
