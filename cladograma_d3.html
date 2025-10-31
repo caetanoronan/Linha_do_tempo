@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cladograma Interativo: Evolução de Cynodontia</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #ffffff;
+            color: #212529;
+        }
+
+        .wrapper {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .cladogram-container {
+            position: relative;
+            width: 1000px;
+            height: 750px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .taxon-name {
+            font-size: 14px;
+            font-style: italic;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .taxon-name:hover {
+            background-color: rgba(255, 235, 59, 0.5);
+        }
+
+        .taxon-name.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .skull-image {
+            width: 150px;
+            height: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+        }
+
+        .skull-image:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+
+        .age-label {
+            font-size: 12px;
+            color: #495057;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #e9ecef;
+        }
+
+        .branch {
+            stroke: #343a40;
+            stroke-width: 2;
+            fill: none;
+            transition: stroke-width 0.3s ease;
+        }
+
+        .branch:hover {
+            stroke-width: 3;
+        }
+
+        .group-label {
+            font-weight: bold;
+            font-size: 16px;
+            color: #6c757d;
+        }
+
+        .details-container {
+            width: 450px;
+            padding: 25px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            position: sticky;
+            top: 20px;
+        }
+
+        .details-container h2 { 
+            margin-top: 0; 
+            color: #212529; 
+            font-size: 24px; 
+        }
+
+        .details-container img { 
+            max-width: 100%; 
+            border-radius: 4px; 
+            margin-bottom: 15px; 
+            border: 1px solid #e9ecef; 
+        }
+
+        .era { 
+            font-size: 1em; 
+            color: #495057; 
+            background-color: #e9ecef; 
+            padding: 12px; 
+            border-radius: 4px; 
+            margin-top: 15px; 
+            border-left: 5px solid #0d6efd; 
+        }
+
+        .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 5px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 0 2px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="cladogram-container">
+        <div class="controls">
+            <button onclick="zoomIn()">+</button>
+            <button onclick="zoomOut()">-</button>
+            <button onclick="resetView()">Reset</button>
+        </div>
+        <svg id="cladogram"></svg>
+    </div>
+
+    <div class="details-container">
+        <h2 id="details-title">Cladograma de Cynodontia</h2>
+        <img id="details-image" src="images/cladogram-overview.png" alt="Visão geral">
+        <p id="details-text">Clique em um táxon para ver os detalhes. Este cladograma mostra a transição gradual de cinodontes basais para formas mais derivadas, culminando nos mamíferos. As principais mudanças ocorreram na mandíbula, dentição e ouvido médio.</p>
+        <div id="details-era" class="era" style="display:none;"></div>
+    </div>
+</div>
+
+<script>
+// Dados do cladograma
+const cladogramData = {
+    procynosuchus: { 
+        title: 'Procynosuchus', 
+        text: 'Um dos primeiros e mais basais cinodontes. Possuía um palato secundário parcial e uma postura semi-ereta, mostrando adaptações para um estilo de vida semi-aquático.', 
+        image: 'images/procynosuchus.png', 
+        era: '<strong>Período:</strong> Permiano Superior (~259–252 Ma)',
+        y: 100,
+        age: 256
+    },
+    thrinaxodon: { 
+        title: 'Thrinaxodon', 
+        text: 'Um pequeno cinodonte do Triássico Inferior, conhecido por fósseis excepcionalmente preservados. Apresentava uma clara divisão dos dentes em incisivos, caninos e pós-caninos e evidências de um diafragma, sugerindo um metabolismo mais elevado.', 
+        image: 'images/thrinaxodon.png', 
+        era: '<strong>Período:</strong> Triássico Inferior (~252–247 Ma)',
+        y: 250,
+        age: 250
+    },
+    cynognathus: { 
+        title: 'Cynognathus', 
+        text: 'Um predador do tamanho de um lobo do Triássico Médio. Seu crânio era robusto e o osso dentário constituía a maior parte da mandíbula, uma característica chave na transição para os mamíferos.', 
+        image: 'images/cynognathus.png', 
+        era: '<strong>Período:</strong> Triássico Médio (~247–237 Ma)',
+        y: 350,
+        age: 242
+    },
+    morganucodon: { 
+        title: 'Morganucodon', 
+        text: 'Um dos mais conhecidos Mammaliaformes. Era um pequeno animal noturno, provavelmente insetívoro. É crucial para o estudo da evolução do ouvido médio dos mamíferos e da articulação da mandíbula dentário-esquamosal.', 
+        image: 'images/morganucodon.png', 
+        era: '<strong>Período:</strong> Triássico Superior ao Jurássico Inferior (~205 Ma)',
+        y: 450,
+        age: 205
+    },
+    ornithorhynchus: { 
+        title: 'Ornithorhynchus (Ornitorrinco)', 
+        text: 'Um mamífero moderno do grupo dos monotremados. Representa uma linhagem que divergiu cedo na evolução dos mamíferos. Apesar de moderno, retém características ancestrais como a oviparidade (pôr ovos).', 
+        image: 'images/ornithorhynchus.png', 
+        era: '<strong>Período:</strong> Quaternário (Atual; 0 Ma)',
+        y: 600,
+        age: 0
+    }
+};
+
+// Configuração do D3
+const svg = d3.select('#cladogram')
+    .attr('width', '100%')
+    .attr('height', '100%');
+
+const g = svg.append('g');
+
+// Zoom
+const zoom = d3.zoom()
+    .scaleExtent([0.5, 3])
+    .on('zoom', (event) => {
+        g.attr('transform', event.transform);
+    })
+    .filter(event => {
+        // Permitir zoom apenas com botões ou scroll + tecla Ctrl
+        if (event.type === 'wheel') {
+            return event.ctrlKey;
+        }
+        // Permitir pan (arrastar) com botão direito do mouse
+        if (event.type === 'mousedown') {
+            return event.button === 2; // botão direito do mouse
+        }
+        return true;
+    });
+
+// Prevenir menu contexto do botão direito
+svg.on('contextmenu', event => {
+    event.preventDefault();
+});
+
+svg.call(zoom);
+
+// Funções de zoom
+function zoomIn() {
+    svg.transition().duration(750).call(zoom.scaleBy, 1.2);
+}
+
+function zoomOut() {
+    svg.transition().duration(750).call(zoom.scaleBy, 0.8);
+}
+
+function resetView() {
+    svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity);
+}
+
+// Desenhar o cladograma
+function drawCladogram() {
+    // Limpar o SVG
+    g.selectAll('*').remove();
+
+    // Grupos taxonômicos
+    const groups = [
+        { name: 'Cynodontia', y: 120, height: 280 },
+        { name: 'Eucynodontia', y: 270, height: 350 },
+        { name: 'Mammaliaformes', y: 460, height: 250 }
+    ];
+
+    // Desenhar grupos
+    groups.forEach(group => {
+        g.append('text')
+            .attr('class', 'group-label')
+            .attr('x', 30)
+            .attr('y', group.y)
+            .attr('transform', `rotate(-90, 30, ${group.y})`)
+            .text(group.name);
+
+        // Colchetes dos grupos
+        g.append('path')
+            .attr('class', 'branch')
+            .attr('d', `M40,${group.y - group.height/2} L55,${group.y - group.height/2} L55,${group.y + group.height/2} L40,${group.y + group.height/2}`)
+            .style('fill', 'none');
+    });
+
+    // Desenhar linhas do cladograma
+    Object.entries(cladogramData).forEach(([key, data], index) => {
+        const startX = 60 + (index * 50);
+        
+        // Linha horizontal para o táxon
+        g.append('line')
+            .attr('class', 'branch')
+            .attr('x1', startX)
+            .attr('y1', data.y)
+            .attr('x2', 280)
+            .attr('y2', data.y);
+
+        // Linha vertical conectando ao próximo táxon (exceto para o último)
+        if (index < Object.entries(cladogramData).length - 1) {
+            g.append('line')
+                .attr('class', 'branch')
+                .attr('x1', startX)
+                .attr('y1', data.y)
+                .attr('x2', startX)
+                .attr('y2', Object.values(cladogramData)[index + 1].y);
+        }
+
+        // Adicionar nome do táxon
+        const taxonGroup = g.append('g')
+            .attr('class', 'taxon-group')
+            .attr('transform', `translate(280,${data.y - 10})`);
+
+        taxonGroup.append('text')
+            .attr('class', 'taxon-name')
+            .text(data.title)
+            .style('pointer-events', 'all')
+            .on('click', () => showDetails(key));
+
+        // Adicionar imagem do crânio
+        const imageGroup = g.append('g')
+            .attr('transform', `translate(450,${data.y - 30})`);
+
+        imageGroup.append('image')
+            .attr('class', 'skull-image')
+            .attr('href', data.image)
+            .attr('width', 150)
+            .attr('height', 100)
+            .style('cursor', 'pointer')
+            .style('pointer-events', 'all')
+            .on('click', () => showDetails(key));
+
+        // Adicionar rótulo de idade
+        g.append('text')
+            .attr('class', 'age-label')
+            .attr('x', 420)
+            .attr('y', data.y + 5)
+            .text(`${data.age} Ma`);
+    });
+
+    // Adicionar escala de tempo
+    const timeScale = d3.scaleLinear()
+        .domain([300, 0])
+        .range([40, 720]);
+
+    const timeAxis = d3.axisLeft(timeScale)
+        .ticks(7)
+        .tickFormat(d => `${d} Ma`);
+
+    g.append('g')
+        .attr('class', 'time-axis')
+        .attr('transform', 'translate(40,0)')
+        .call(timeAxis);
+}
+
+// Função para mostrar detalhes
+function showDetails(taxonId) {
+    const data = cladogramData[taxonId];
+    
+    // Remover classe active de todos os táxons
+    d3.selectAll('.taxon-name').classed('active', false);
+    
+    // Adicionar classe active ao táxon selecionado
+    d3.select(`.taxon-name:contains(${data.title})`).classed('active', true);
+
+    // Atualizar detalhes
+    document.getElementById('details-title').textContent = data.title;
+    document.getElementById('details-image').src = data.image;
+    document.getElementById('details-text').textContent = data.text;
+    document.getElementById('details-era').innerHTML = data.era;
+    document.getElementById('details-era').style.display = 'block';
+}
+
+// Inicializar o cladograma
+drawCladogram();
+
+// Helper para seletor de texto contains
+jQuery.expr[':'].contains = function(a, i, m) {
+    return jQuery(a).text().toUpperCase()
+        .indexOf(m[3].toUpperCase()) >= 0;
+};
+</script>
+
+</body>
+</html>

@@ -1,23 +1,22 @@
+
 <!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Apresentação interativa sobre a origem dos mamíferos em sinápsidos, explorando a evolução de Cynodontia a Mammaliaformes com cladograma interativo.">
+  <meta name="keywords" content="evolução, mamíferos, sinápsidos, cladograma, paleontologia, biologia">
   <title>Apresentação: Origem dos Mamíferos (Cynodontia)</title>
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.6.2/dist/reveal.css">
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@4.6.2/dist/theme/black.css" id="theme">
   <style>
     :root { 
-      --accent: #1971c2; 
-      --accent-dark: #0c4a6e;
-      --gradient-start: #FFEE8C;
-      --gradient-end: #FFE066;
+      --accent: #2CA25F; /* BuGn 3 - escuro */
+      --accent-dark: #276D4D;
+      --gradient-start: #E5F5F9; /* BuGn 1 - claro */
+      --gradient-end: #99D8C9; /* BuGn 2 - médio */
       --text-dark: #1a1a1a;
-      --text-medium: #4a4a4a;
+      --text-medium: #276D4D;
     }
-    
-    /* Fundo gradiente suave em amarelo */
-    .reveal {
+    body {
       background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
     }
     
@@ -81,12 +80,14 @@
     
     /* iFrames estilizados */
     iframe.embedded { 
-      width: 100%; 
-      height: 70vh; 
-      border: 2px solid var(--accent);
-      border-radius: 12px; 
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-      background: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  margin: 0 auto;
+  border: 4px solid var(--accent);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(44, 162, 95, 0.18);
+  background: rgba(255, 255, 255, 0.92);
     }
     
     /* Notas e badges */
@@ -118,25 +119,28 @@
     
     /* Controles refinados */
     .controls { 
-      position: fixed; 
-      top: 20px; 
-      right: 20px; 
-      z-index: 1000;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
       display: flex;
       gap: 10px;
+      pointer-events: auto;
     }
     
     .controls button { 
-      padding: 10px 18px; 
-      border-radius: 25px; 
+      padding: 10px 18px;
+      border-radius: 25px;
       border: 2px solid var(--accent);
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(10px);
-      color: var(--text-dark); 
+      color: var(--text-dark);
       cursor: pointer;
       font-weight: 500;
       transition: all 0.3s ease;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 10001;
+      pointer-events: auto;
     }
     
     .controls button:hover {
@@ -188,7 +192,26 @@
       transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    /* Code tags elegantes */
+    /* Skip link para acessibilidade */
+    .skip-link:focus {
+      top: 6px;
+    }
+
+    /* Botão de alto contraste no player */
+    #music-player .badge {
+      background: #2c3e50 !important;
+      color: #ecf0f1 !important;
+      border: 2px solid #34495e !important;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    #music-player .badge:hover {
+      background: #34495e !important;
+      border-color: #ecf0f1 !important;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
     .reveal code {
       background: rgba(255, 255, 255, 0.6);
       padding: 0.2em 0.5em;
@@ -240,6 +263,55 @@
     @media (max-width: 1100px) { .mini-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 640px)  { .mini-grid { grid-template-columns: 1fr; } }
 
+    /* Modo alto contraste */
+    .high-contrast {
+      filter: contrast(200%) brightness(150%);
+    }
+    .high-contrast body {
+      background: #000000 !important;
+      color: #ffffff !important;
+    }
+    .high-contrast h1, .high-contrast h2, .high-contrast h3,
+    .high-contrast h4, .high-contrast h5, .high-contrast h6 {
+      color: #ffffff !important;
+      background: #000000 !important;
+      border: none !important;
+    }
+    .high-contrast p, .high-contrast li, .high-contrast dd,
+    .high-contrast span, .high-contrast div {
+      color: #ffffff !important;
+      background: #000000 !important;
+    }
+    .high-contrast .badge {
+      background: #ffffff !important;
+      color: #000000 !important;
+      border: 2px solid #ffffff !important;
+    }
+    .high-contrast .mini-grid .card {
+      background: #000000 !important;
+      border: 2px solid #ffffff !important;
+      color: #ffffff !important;
+    }
+    .high-contrast .glossary dt {
+      background: #000000 !important;
+      border-left: 4px solid #ffffff !important;
+      color: #ffffff !important;
+    }
+    .high-contrast .glossary dd {
+      color: #ffffff !important;
+      background: #000000 !important;
+    }
+    .high-contrast .note {
+      color: #ffff00 !important; /* amarelo para destaques */
+      background: #000000 !important;
+    }
+    .high-contrast .two-col, .high-contrast .glossary-grid {
+      background: #000000 !important;
+    }
+    .high-contrast iframe {
+      border: 4px solid #ffffff !important;
+    }
+
     /* Glossário estilizado */
     .glossary-grid {
       display: grid;
@@ -267,449 +339,420 @@
   </style>
 </head>
 <body>
+
+<a href="#main-content" class="skip-link" style="position:absolute;top:-40px;left:6px;background:#000;color:#fff;padding:8px;text-decoration:none;z-index:10000;">Pular para conteúdo principal</a>
+
+<div id="music-player" style="position:fixed;bottom:20px;left:20px;z-index:9999;background:rgba(255,255,255,0.9);border-radius:12px;padding:8px 12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:flex;align-items:center;gap:8px;font-size:0.9em;" role="region" aria-label="Player de música de fundo">
+  <span style="color:#276D4D;font-weight:500;">🎵 Ecos da Eternidade</span>
+  <audio controls src="../assets/Ecos_da_Eternidade.mp3" loop style="height:30px;" aria-label="Controles de reprodução da música Ecos da Eternidade"></audio>
+  <button onclick="toggleHighContrast()" class="badge" aria-label="Alternar modo de alto contraste para melhor visibilidade" style="margin:0;padding:6px 10px;font-size:0.8em;">Alto Contraste</button>
+</div>
+
 <div class="controls">
-  <button onclick="toggleTheme()">Alternar tema</button>
-  <a class="badge" href="/Linha_do_tempo/cladograma_d3_refinado_01.html" target="_blank">Abrir cladograma em nova guia</a>
-  <a class="badge" href="/Linha_do_tempo/artigos/origem-mamiferos.html" target="_blank">Abrir artigo base</a>
-  <a class="badge" href="#" onclick="goToSlide('glossario'); return false;">Ver Glossário</a>
+  <a class="badge" href="https://caetanoronan.github.io/Linha_do_tempo/artigos/origem-mamiferos.html" target="_blank">Abrir artigo base</a>
 </div>
-<div class="reveal">
-  <div class="slides">
 
-    <section data-background-gradient="linear-gradient(135deg, #FFD93D 0%, #FFEE8C 100%)" data-transition="zoom">
-      <h1>Origem dos Mamíferos em Sinápsidos</h1>
-      <h3>Cynodontia → Mammaliaformes</h3>
-      <div class="two-col">
-        <div>
-          <p>
-            A história da vida na Terra é marcada por grandes divergências evolutivas, momentos em que linhagens se separam para seguir caminhos radicalmente distintos. Uma das mais profundas dessas separações ocorreu no final do Período Carbonífero, há aproximadamente 312 a 318 milhões de anos, quando os amniotas — vertebrados que desenvolveram o ovo com âmnio, libertando-se da dependência da água para a reprodução — se dividiram em dois clados monumentais: os <strong>Sauropsida</strong>, que dariam origem aos répteis e às aves, e os <strong>Synapsida</strong>, a linhagem que, após uma longa e complexa jornada evolutiva, culminaria no surgimento dos mamíferos.
-          </p>
-          <p>
-            A origem dos <em>Mammalia</em>, portanto, não pode ser entendida como um evento singular, mas sim como o resultado de uma saga evolutiva que se estendeu por mais de 100 milhões de anos, atravessando as eras Paleozoica e Mesozoica.
-          </p>
-        </div>
-        <div>
-          <img src="/Linha_do_tempo/assets/evolucao-geologica.jpg" alt="Evolução geológica" style="max-width:100%;">
+<!-- Menu de abas -->
+<nav class="tabs-menu" role="tablist" aria-label="Navegação principal da apresentação">
+  <button class="tab-btn active" data-tab="intro" role="tab" aria-selected="true" aria-controls="tab-intro" id="tab-intro-btn" tabindex="0">Introdução</button>
+  <button class="tab-btn" data-tab="anatomia" role="tab" aria-selected="false" aria-controls="tab-anatomia" id="tab-anatomia-btn" tabindex="-1">Anatomia</button>
+  <button class="tab-btn" data-tab="irradiacao" role="tab" aria-selected="false" aria-controls="tab-irradiacao" id="tab-irradiacao-btn" tabindex="-1">Irradiação dos Sinápsidos</button>
+  <button class="tab-btn" data-tab="cladograma" role="tab" aria-selected="false" aria-controls="tab-cladograma" id="tab-cladograma-btn" tabindex="-1">Cladograma Interativo</button>
+    <button class="tab-btn" data-tab="contexto" role="tab" aria-selected="false" aria-controls="tab-contexto" id="tab-contexto-btn" tabindex="-1">Contexto Evolutivo: Synapsida</button>
+  <button class="tab-btn" data-tab="taxons" role="tab" aria-selected="false" aria-controls="tab-taxons" id="tab-taxons-btn" tabindex="-1">Táxons-chave</button>
+  <button class="tab-btn" data-tab="glossario" role="tab" aria-selected="false" aria-controls="tab-glossario" id="tab-glossario-btn" tabindex="-1">Glossário</button>
+  <button class="tab-btn" data-tab="pdf" role="tab" aria-selected="false" aria-controls="tab-pdf" id="tab-pdf-btn" tabindex="-1">PDF Apoio</button>
+  <button class="tab-btn" data-tab="fossil" role="tab" aria-selected="false" aria-controls="tab-fossil" id="tab-fossil-btn" tabindex="-1">Distribuição Geográfica dos Fósseis</button>
+  <button class="tab-btn" data-tab="creditos" role="tab" aria-selected="false" aria-controls="tab-creditos" id="tab-creditos-btn" tabindex="-1">Créditos e Referências</button>
+</nav>
+
+<!-- Conteúdo das abas -->
+<div class="tab-content" id="tab-intro" style="display:block;" role="tabpanel" aria-labelledby="tab-intro-btn">
+  <section data-background-gradient="linear-gradient(135deg, #FFD93D 0%, #FFEE8C 100%)" data-transition="zoom" id="main-content">
+    <div style="position:absolute;top:60px;right:20px;z-index:1000;">
+      <span class="badge" style="background:#2CA25F;color:white;border:2px solid #276D4D;font-size:0.9em;padding:8px 12px;display:flex;align-items:center;gap:6px;">
+        ♿ <strong>Acessível</strong> - Leitores de tela, alto contraste, navegação por teclado
+      </span>
+    </div>
+    <h1>Origem dos Mamíferos em Sinápsidos</h1>
+    <h3>Cynodontia → Mammaliaformes</h3>
+    <div class="two-col">
+      <div>
+        <p>A história da vida na Terra é marcada por grandes divergências evolutivas, momentos em que linhagens se separam para seguir caminhos radicalmente distintos. Uma das mais profundas dessas separações ocorreu no final do Período Carbonífero, há aproximadamente 312 a 318 milhões de anos, quando os amniotas — vertebrados que desenvolveram o ovo com âmnio, libertando-se da dependência da água para a reprodução — se dividiram em dois clados monumentais: os <strong>Sauropsida</strong>, que dariam origem aos répteis e às aves, e os <strong>Synapsida</strong>, a linhagem que, após uma longa e complexa jornada evolutiva, culminaria no surgimento dos mamíferos.</p>
+        <p>A origem dos <em>Mammalia</em>, portanto, não pode ser entendida como um evento singular, mas sim como o resultado de uma saga evolutiva que se estendeu por mais de 100 milhões de anos, atravessando as eras Paleozoica e Mesozoica.</p>
+      </div>
+      <div>
+        <img src="../assets/evolucao-geologica.jpg" alt="Evolução geológica" style="max-width:100%;">
+      </div>
+    </div>
+    <p class="note">Use o menu acima para navegar entre os temas.</p>
+  </section>
+
+  <section>
+    <h2>Resumo dos Objetivos e Conteúdos</h2>
+    <div class="two-col">
+      <div>
+        <ul>
+          <li>Compreender marcos da transição crânio-mandibular</li>
+          <li>Relacionar <em>Cynodontia</em> e <em>Mammaliaformes</em></li>
+          <li>Explorar um cladograma interativo com evidências</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Conteúdos em foco</h3>
+        <ul>
+          <li><strong>Arquitetura craniana:</strong> fenestra temporal e musculatura adutora</li>
+          <li><strong>Evolução em mosaico:</strong> aquisição gradual de caracteres</li>
+          <li><strong>Irradiações adaptativas:</strong> Pelycosauria → Therapsida → Cynodontia → Mammaliaformes</li>
+          <li><strong>Transições-chave:</strong> palato secundário, heterodontia, postura ereta, articulação dentário–esquamosal</li>
+          <li><strong>Gargalo noturno:</strong> implicações ecológicas na origem dos mamíferos</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="tab-content" id="tab-anatomia" style="display:none;" role="tabpanel" aria-labelledby="tab-anatomia-btn">
+  <section id="fenestra">
+    <h2>Arquitetura Craniana: Fenestra Temporal</h2>
+    <div class="two-col">
+      <div>
+        <p>A classificação dos amniotas historicamente se apoia no padrão de fenestras na região temporal do crânio.</p>
+        <ul>
+          <li><strong>Anápsidos:</strong> sem fenestras temporais</li>
+          <li><strong>Diápsidos:</strong> duas fenestras (saurópsidos)</li>
+          <li><strong>Sinápsidos:</strong> uma fenestra temporal inferior</li>
+        </ul>
+        <p class="note">Nos sinápsidos, a fenestra ampliou origem/área para músculos adutores da mandíbula, chave para a mastigação.</p>
+      </div>
+      <div>
+  <img src="../images/cladogram-overview.png" alt="Visão geral do cladograma" style="max-width:100%">
+      </div>
+    </div>
+  </section>
+  <section id="transicoes">
+    <h2>Transições Anatômicas: Resumo</h2>
+    <div class="two-col">
+      <div>
+        <ul>
+          <li><strong>Palato secundário:</strong> ausente → incipiente → completo</li>
+          <li><strong>Dentição:</strong> homodonte → heterodonte simples → heterodonte complexa</li>
+          <li><strong>Mandíbula:</strong> articular–quadrado → dupla → dentário–esquamosal</li>
+        </ul>
+      </div>
+      <div>
+        <ul>
+          <li><strong>Postura:</strong> esparramada → semi-ereta → ereta</li>
+          <li><strong>Metabolismo (inferido):</strong> ectotermia → endotermia incipiente → endotermia</li>
+          <li><strong>Fenestra temporal:</strong> pequena → ampliada → confluente com a órbita</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">Evidência de <em>evolução em mosaico</em>: caracteres surgem em momentos diferentes.</p>
+  </section>
+  <section>
+    <h2>Tabela comparativa (mini)</h2>
+    <div class="mini-grid">
+      <div class="card">
+        <h3>Pelycosauria</h3>
+        <div class="chips">
+          <span class="chip chip-gray">🕳️ fenestra pequena</span>
+          <span class="chip chip-red">palato ✖</span>
+          <span class="chip chip-gray">mandíbula AQ</span>
+          <span class="chip chip-gray">🦷 homodonte</span>
+          <span class="chip chip-gray">🐊 esparramada</span>
+          <span class="chip chip-blue">❄️ ectotermia</span>
         </div>
       </div>
-      <p class="note">Use as setas do teclado para navegar. Pressione S para notas do apresentador.</p>
-      <aside class="notes">Contextualizar o grupo Cynodontia, período geológico e principais transições anatômicas.</aside>
-    </section>
-
-    <section id="fenestra" data-transition="fade">
-      <h2>Arquitetura Craniana: Fenestra Temporal</h2>
-      <div class="two-col">
-        <div>
-          <p>A classificação dos amniotas historicamente se apoia no padrão de fenestras na região temporal do crânio.</p>
-          <ul>
-            <li><strong>Anápsidos:</strong> sem fenestras temporais</li>
-            <li><strong>Diápsidos:</strong> duas fenestras (saurópsidos)</li>
-            <li><strong>Sinápsidos:</strong> uma fenestra temporal inferior</li>
-          </ul>
-          <p class="note">Nos sinápsidos, a fenestra ampliou origem/área para músculos adutores da mandíbula, chave para a mastigação.</p>
-        </div>
-        <div>
-          <img src="/Linha_do_tempo/images/cladogram-overview.png" alt="Visão geral do cladograma" style="max-width:100%">
+      <div class="card">
+        <h3>Therapsida basal</h3>
+        <div class="chips">
+          <span class="chip chip-blue">🕳️ fenestra ↑</span>
+          <span class="chip chip-amber">palato ◐</span>
+          <span class="chip chip-amber">mandíbula mista</span>
+          <span class="chip chip-amber">🦷 heterodonte simples</span>
+          <span class="chip chip-amber">🐾 semi-ereta</span>
+          <span class="chip chip-amber">♨️ endotermia incipiente</span>
         </div>
       </div>
-    </section>
-
-    <section id="transicoes" data-transition="concave">
-      <h2>Transições Anatômicas: Resumo</h2>
-      <div class="two-col">
-        <div>
-          <ul>
-            <li><strong>Palato secundário:</strong> ausente → incipiente → completo</li>
-            <li><strong>Dentição:</strong> homodonte → heterodonte simples → heterodonte complexa</li>
-            <li><strong>Mandíbula:</strong> articular–quadrado → dupla → dentário–esquamosal</li>
-          </ul>
-        </div>
-        <div>
-          <ul>
-            <li><strong>Postura:</strong> esparramada → semi-ereta → ereta</li>
-            <li><strong>Metabolismo (inferido):</strong> ectotermia → endotermia incipiente → endotermia</li>
-            <li><strong>Fenestra temporal:</strong> pequena → ampliada → confluente com a órbita</li>
-          </ul>
+      <div class="card">
+        <h3>Cynodontia avançados</h3>
+        <div class="chips">
+          <span class="chip chip-purple">🕳️ ampla</span>
+          <span class="chip chip-green">palato ✔</span>
+          <span class="chip chip-green">mandíbula dupla → D–E</span>
+          <span class="chip chip-green">🦷 heterodonte complexa</span>
+          <span class="chip chip-green">🐾 ereta</span>
+          <span class="chip chip-green">🔥 endotermia</span>
         </div>
       </div>
-      <p class="note">Evidência de <em>evolução em mosaico</em>: caracteres surgem em momentos diferentes.</p>
-    </section>
-
-    <section data-transition="fade">
-      <h2>Tabela comparativa (mini)</h2>
-      <div class="mini-grid">
-        <div class="card">
-          <h3>Pelycosauria</h3>
-          <div class="chips">
-            <span class="chip chip-gray">🕳️ fenestra pequena</span>
-            <span class="chip chip-red">palato ✖</span>
-            <span class="chip chip-gray">mandíbula AQ</span>
-            <span class="chip chip-gray">🦷 homodonte</span>
-            <span class="chip chip-gray">🐊 esparramada</span>
-            <span class="chip chip-blue">❄️ ectotermia</span>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Therapsida basal</h3>
-          <div class="chips">
-            <span class="chip chip-blue">🕳️ fenestra ↑</span>
-            <span class="chip chip-amber">palato ◐</span>
-            <span class="chip chip-amber">mandíbula mista</span>
-            <span class="chip chip-amber">🦷 heterodonte simples</span>
-            <span class="chip chip-amber">🐾 semi-ereta</span>
-            <span class="chip chip-amber">♨️ endotermia incipiente</span>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Cynodontia avançados</h3>
-          <div class="chips">
-            <span class="chip chip-purple">🕳️ ampla</span>
-            <span class="chip chip-green">palato ✔</span>
-            <span class="chip chip-green">mandíbula dupla → D–E</span>
-            <span class="chip chip-green">🦷 heterodonte complexa</span>
-            <span class="chip chip-green">🐾 ereta</span>
-            <span class="chip chip-green">🔥 endotermia</span>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Mammaliaformes</h3>
-          <div class="chips">
-            <span class="chip chip-purple">🕳️ confluente</span>
-            <span class="chip chip-green">palato ✔</span>
-            <span class="chip chip-green">mandíbula D–E</span>
-            <span class="chip chip-green">🦷 tribosfênica/complexa</span>
-            <span class="chip chip-green">🐾 ereta</span>
-            <span class="chip chip-green">🔥 endotermia</span>
-          </div>
+      <div class="card">
+        <h3>Mammaliaformes</h3>
+        <div class="chips">
+          <span class="chip chip-purple">🕳️ confluente</span>
+          <span class="chip chip-green">palato ✔</span>
+          <span class="chip chip-green">mandíbula D–E</span>
+          <span class="chip chip-green">🦷 tribosfênica/complexa</span>
+          <span class="chip chip-green">🐾 ereta</span>
+          <span class="chip chip-green">🔥 endotermia</span>
         </div>
       </div>
-      <p class="note">Ícones: 🕳️ fenestra; 🦷 dentição; 🐾 postura; ♨️/🔥 metabolismo. Cores: cinza = ancestral; âmbar = intermediário; verde = derivado.</p>
-    </section>
-
-    <section id="mastigacao" data-transition="zoom">
-      <h2>Mastigação e Exaptação do Ouvido Médio</h2>
-      <div class="two-col">
-        <div>
-          <p>A heterodontia e o palato secundário permitiram <strong>processamento oral</strong> eficiente do alimento.</p>
-          <p>O aperfeiçoamento da mastigação remodelou o crânio e teve efeito colateral profundo:</p>
-          <div class="highlight">
-            <p>Ossos <em>articular</em> e <em>quadrado</em> foram miniaturizados e incorporados ao ouvido médio (martelo e bigorna) — um caso clássico de <strong>exaptação</strong>.</p>
-          </div>
-        </div>
-        <div>
-          <img src="/Linha_do_tempo/assets/transicao_craniana.png" alt="Transição para ouvido médio" style="max-width:100%">
+    </div>
+    <p class="note">Ícones: 🕳️ fenestra; 🦷 dentição; 🐾 postura; ♨️/🔥 metabolismo. Cores: cinza = ancestral; âmbar = intermediário; verde = derivado.</p>
+  </section>
+  <section id="mastigacao">
+    <h2>Mastigação e Exaptação do Ouvido Médio</h2>
+    <div class="two-col">
+      <div>
+        <p>A heterodontia e o palato secundário permitiram <strong>processamento oral</strong> eficiente do alimento.</p>
+        <p>O aperfeiçoamento da mastigação remodelou o crânio e teve efeito colateral profundo:</p>
+        <div class="highlight">
+          <p>Ossos <em>articular</em> e <em>quadrado</em> foram miniaturizados e incorporados ao ouvido médio (martelo e bigorna) — um caso clássico de <strong>exaptação</strong>.</p>
         </div>
       </div>
-    </section>
-
-    <section id="objetivos" data-transition="slide">
-      <h2>Objetivos da Aula</h2>
-      <div class="two-col">
-        <div>
-          <ul>
-            <li>Compreender marcos da transição crânio-mandibular</li>
-            <li>Relacionar <em>Cynodontia</em> e <em>Mammaliaformes</em></li>
-            <li>Explorar um cladograma interativo com evidências</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Conteúdos em foco</h3>
-          <ul>
-            <li><strong>Arquitetura craniana:</strong> fenestra temporal e musculatura adutora</li>
-            <li><strong>Evolução em mosaico:</strong> aquisição gradual de caracteres</li>
-            <li><strong>Irradiações adaptativas:</strong> Pelycosauria → Therapsida → Cynodontia → Mammaliaformes</li>
-            <li><strong>Transições-chave:</strong> palato secundário, heterodontia, postura ereta, articulação dentário–esquamosal</li>
-            <li><strong>Gargalo noturno:</strong> implicações ecológicas na origem dos mamíferos</li>
-          </ul>
-        </div>
+      <div>
+        <img src="../assets/transicao_craniana.png" alt="Transição para ouvido médio" style="max-width:100%">
       </div>
-      <p class="note">Síntese baseada no material “A Odisseia Sinápsida: Origem dos Mamíferos em Sinápsidos”.</p>
-    </section>
-
-    <section id="synapsida" data-transition="convex">
-      <h2>Contexto Evolutivo: Synapsida</h2>
-      <div class="two-col">
-        <div>
-          <img src="/Linha_do_tempo/images/synapsida.jpg" alt="Synapsida" style="max-width:100%; border-radius:8px;">
-          <p class="note">Grupo que inclui mamíferos e ancestrais extintos</p>
-        </div>
-        <div>
-          <ul>
-            <li>Amniotas com abertura temporal única</li>
-            <li>Divergiram no Carbonífero Superior (~320 Ma)</li>
-            <li>Linhagem que levou aos mamíferos modernos</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="therapsida">
-      <h2>Therapsida: Rumo aos Mamíferos</h2>
-      <img src="/Linha_do_tempo/images/therapsida.jpg" alt="Therapsida" style="max-width:80%; border-radius:8px;">
-      <p>Grupo dentro de Synapsida que mostra características progressivamente mais mamalianas</p>
-    </section>
-
-    <section id="irradiacao">
-      <h2>Irradiação dos Sinápsidos</h2>
-      <img src="/Linha_do_tempo/assets/irradiacao_sinapsida.png" alt="Irradiação de Synapsida" style="max-width:85%; border-radius:8px;">
-      <p class="note">Diversificação e radiação adaptativa do grupo ao longo do tempo geológico</p>
-    </section>
-
-    <section id="cladograma">
-      <h2>Cladograma Interativo</h2>
-      <div class="two-col">
-        <div>
-          <p>Clique nos táxons para ver detalhes (imagem, texto e período).</p>
-          <p class="note">Dica: abra em tela cheia para melhor experiência.</p>
-          <p><a href="/Linha_do_tempo/cladograma_d3_refinado_01.html" target="_blank">Abrir em nova guia</a></p>
-        </div>
-        <div>
-          <iframe class="embedded" src="/Linha_do_tempo/cladograma_d3_refinado_01.html"></iframe>
-        </div>
-      </div>
-      <aside class="notes">Passe por Procynosuchus → Thrinaxodon → Cynognathus → Morganucodon → Ornithorhynchus.</aside>
-    </section>
-
-    <section id="cynodontia">
-      <h2>Cynodontia: Características-chave</h2>
-      <div class="two-col">
-        <div>
-          <img src="/Linha_do_tempo/images/cynodontia.jpg" alt="Cynodontia" style="max-width:100%; border-radius:8px;">
-        </div>
-        <div>
-          <ul>
-            <li>Palato secundário</li>
-            <li>Dentes diferenciados</li>
-            <li>Expansão do osso dentário</li>
-            <li>Redução de ossos pós-dentários</li>
-            <li>Postura mais ereta</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="procynosuchus">
-      <h2>Táxons-chave: Procynosuchus</h2>
-      <div class="two-col">
-        <div>
-          <img src="/Linha_do_tempo/images/procynosuchus.png" alt="Procynosuchus" style="max-width:100%; border-radius:8px;">
-        </div>
-        <div>
-          <p><strong>Permiano Superior (~256 Ma)</strong></p>
-          <p>Um dos primeiros cinodontes, com palato secundário parcial e postura semi-ereta.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="thrinaxodon">
-      <h2>Táxons-chave: Thrinaxodon</h2>
-      <div class="two-col">
-        <div>
-          <img src="/Linha_do_tempo/images/thrinaxodon.png" alt="Thrinaxodon" style="max-width:100%; border-radius:8px;">
-        </div>
-        <div>
-          <p><strong>Triássico Inferior (~250 Ma)</strong></p>
-          <p>Divisão clara dos dentes e evidências de diafragma, sugerindo metabolismo elevado.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="cynognathus">
-      <h2>Táxons-chave: Cynognathus</h2>
-      <div class="two-col">
-        <div>
-          <img src="/Linha_do_tempo/images/cynognathus.png" alt="Cynognathus" style="max-width:100%; border-radius:8px;">
-        </div>
-        <div>
-          <p><strong>Triássico Médio (~242 Ma)</strong></p>
-          <p>Predador robusto com dentário dominante na mandíbula.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="morganucodon">
-      <h2>Táxons-chave: Morganucodon</h2>
-      <div class="two-col">
-        <div>
-          <img src="/Linha_do_tempo/images/morganucodon.png" alt="Morganucodon" style="max-width:100%; border-radius:8px;">
-        </div>
-        <div>
-          <p><strong>Triássico Superior (~205 Ma)</strong></p>
-          <p>Mammaliaformes basal, crucial para o estudo da evolução do ouvido médio.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="mammaliaformes">
-      <h2>Mammaliaformes Modernos</h2>
-      <div class="two-col">
-        <div>
-          <img src="/Linha_do_tempo/images/ornithorhynchus.png" alt="Ornithorhynchus" style="max-width:100%; border-radius:8px;">
-        </div>
-        <div>
-          <p><strong>Ornithorhynchus (Atual)</strong></p>
-          <p>Monotremado que retém características ancestrais (oviparidade) mas é um mamífero verdadeiro.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="transicao-craniana">
-      <h2>Transição Craniana</h2>
-      <img src="/Linha_do_tempo/assets/transicao_craniana.png" alt="Transição craniana" style="max-width:85%; border-radius:8px;">
-      <p class="note">Evolução das estruturas cranianas de cinodontes basais até mamíferos</p>
-    </section>
-
-    <section id="linha-tempo">
-      <h2>Linha do Tempo Geológica</h2>
-      <img src="/Linha_do_tempo/assets/grafico_linha_tempo.png" alt="Linha do tempo" style="max-width:85%; border-radius:8px;">
-      <p class="note">Distribuição temporal dos principais grupos</p>
-    </section>
-
-    <section id="mapa-fosseis">
-      <h2>Distribuição Geográfica dos Fósseis</h2>
-      <img src="/Linha_do_tempo/assets/mapa_fosseis_sinapsidas.png" alt="Mapa de fósseis" style="max-width:85%; border-radius:8px;">
-      <p class="note">Locais de descoberta de fósseis de sinápsidos ao redor do mundo</p>
-    </section>
-
-    <section id="evolutionary-musculoskeletal" data-transition="fade">
-      <h2>Evolução Músculo-Esquelética</h2>
-      <img src="/Linha_do_tempo/images/Evolutionary_musculoskeletal.jpg" alt="Evolução músculo-esquelética em sinápsidos" style="max-width:90%; border-radius:8px;">
-      <p class="note">Transformações morfológicas na musculatura e esqueleto durante a evolução dos sinápsidos. Fonte: <a href="https://doi.org/10.1111/brv.12314" target="_blank">Romer & Parsons (2016) - Biological Reviews</a></p>
-    </section>
-
-    <section id="discussao">
-      <h2>Discussão</h2>
-      <ul>
-        <li>Quais características são sinapomorfias de Mammalia?</li>
-        <li>Que evidências fósseis apoiam a transição do ouvido médio?</li>
-        <li>Como hábitos noturnos podem ter influenciado a evolução?</li>
-      </ul>
-    </section>
-
-    <section id="creditos">
-      <h2>Créditos e Referências</h2>
-      <ul>
-        <li><strong>Referência principal:</strong> <a href="https://doi.org/10.1111/brv.12314" target="_blank">Romer, A.S. & Parsons, T.S. (2016). The Vertebrate Body. Biological Reviews. doi:10.1111/brv.12314</a></li>
-        <li>Imagens e textos do seu projeto <code>cladograma_interativo</code></li>
-        <li>Slides construídos com <a href="https://revealjs.com/" target="_blank">Reveal.js</a></li>
-      </ul>
-    </section>
-
-    <section id="glossario" data-transition="fade">
-      <h2>Glossário</h2>
-      <div class="glossary glossary-grid">
-        <div>
-          <dl>
-            <dt>Sinápsidos (Synapsida)</dt>
-            <dd>Clado de amniotas com uma única fenestra temporal; inclui mamíferos e seus ancestrais fósseis.</dd>
-            <dt>Saurópsidos (Sauropsida)</dt>
-            <dd>Clado-irmão dos sinápsidos: répteis e aves.</dd>
-            <dt>Fenestra temporal</dt>
-            <dd>Abertura no crânio atrás da órbita que expande área para inserção de musculatura mandibular. <a href="#" onclick="goToSlide('fenestra'); return false;">ver slide</a></dd>
-            <dt>Heterodontia</dt>
-            <dd>Dentição diferenciada (incisivos, caninos, pré-molares, molares) com funções distintas. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
-            <dt>Palato secundário</dt>
-            <dd>Separação entre cavidades oral e nasal, permitindo mastigação e respiração simultâneas. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
-            <dt>Articular–quadrado</dt>
-            <dd>Articulação mandibular ancestral dos amniotas (osso articular da mandíbula com quadrado do crânio). <a href="#" onclick="goToSlide('mastigacao'); return false;">ver slide</a></dd>
-            <dt>Dentário–esquamosal</dt>
-            <dd>Articulação mandibular típica de mamíferos (osso dentário com esquamosal). <a href="#" onclick="goToSlide('mastigacao'); return false;">ver slide</a></dd>
-            <dt>Exaptação</dt>
-            <dd>Cooptação de uma estrutura para nova função (ex.: articular/quadrado → martelo/bigorna). <a href="#" onclick="goToSlide('mastigacao'); return false;">ver slide</a></dd>
-          </dl>
-        </div>
-        <div>
-          <dl>
-            <dt>Endotermia / Ectotermia</dt>
-            <dd>Produção interna de calor vs. dependência do ambiente para a regulação térmica. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
-            <dt>Cynodontia (Cinodontes)</dt>
-            <dd>Subgrupo de terapsídeos com traços pré-mamalianos marcantes (palato, heterodontia, dentário expandido). <a href="#" onclick="goToSlide('cynodontia'); return false;">ver slide</a></dd>
-            <dt>Mammaliaformes</dt>
-            <dd>Grupo próximo à base de Mammalia, com muitas características de mamíferos. <a href="#" onclick="goToSlide('mammaliaformes'); return false;">ver slide</a></dd>
-            <dt>Tribosfênico</dt>
-            <dd>Padrão de molar mamaliano com cúspides que permitem trituração e cisalhamento eficientes. <a href="#" onclick="goToSlide('mammaliaformes'); return false;">ver slide</a></dd>
-            <dt>Postura esparramada/ereta</dt>
-            <dd>Ângulo dos membros em relação ao tronco; esparramada (lateral) vs. ereta (sob o corpo). <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
-            <dt>Anápsidos / Diápsidos</dt>
-            <dd>Amniotas sem fenestras temporais (anápsidos) vs. com duas fenestras (diápsidos). <a href="#" onclick="goToSlide('fenestra'); return false;">ver slide</a></dd>
-            <dt>Sinapomorfia</dt>
-            <dd>Caráter derivado compartilhado que define e sustenta um clado. <a href="#" onclick="goToSlide('cladograma'); return false;">ver slide</a></dd>
-            <dt>Irradiação adaptativa</dt>
-            <dd>Rápida diversificação de um grupo em múltiplos nichos ecológicos. <a href="#" onclick="goToSlide('irradiacao'); return false;">ver slide</a></dd>
-            <dt>“Gargalo noturno”</dt>
-            <dd>Hipótese de que ancestrais mamalianos tiveram hábitos noturnos, influenciando adaptações sensoriais e fisiológicas. <a href="#" onclick="goToSlide('objetivos'); return false;">ver slide</a></dd>
-            <dt>Metatarsos digitígrados</dt>
-            <dd>Padrão de apoio nos dedos (digitígrado), associado a locomoção mais eficiente. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
-            <dt>Narinas secundárias</dt>
-            <dd>Aberturas internas (coanas) recuadas pelo palato secundário, separando fluxo aéreo da cavidade oral. <a href="#" onclick="goToSlide('transicoes'); return false;">ver slide</a></dd>
-            <dt>Diafragma</dt>
-            <dd>Músculo respiratório que separa tórax e abdômen; indícios em cinodontes sugerem ventilação eficiente. <a href="#" onclick="goToSlide('thrinaxodon'); return false;">ver slide</a></dd>
-          </dl>
-        </div>
-      </div>
-      <p class="note">Termos usados ao longo dos slides para facilitar a revisão durante a apresentação.</p>
-    </section>
-
-    <section id="pdf-apoio">
-      <h2>Leitura de Apoio (PDF)</h2>
-      <p>Documento: "Origem dos Mamíferos em Sinápsidos"</p>
-      <iframe class="embedded" src="/Linha_do_tempo/assets/origem-mamiferos-sinapsidos.pdf#page=1&zoom=page-width"></iframe>
-      <p class="note">Se o PDF não carregar, <a target="_blank" href="/Linha_do_tempo/assets/origem-mamiferos-sinapsidos.pdf">abra em nova guia</a>.</p>
-    </section>
-
+    </div>
+    <div style="text-align:center; margin-top:32px;">
+  <img src="../images/Evolutionary_musculoskeletal.jpg" alt="Evolução Músculo-Esquelética em Sinápsidos" style="max-width:90%; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.18);">
+  <p class="note">Transformações morfológicas na musculatura e esqueleto durante a evolução dos sinápsidos.</p>
+  <p style="font-size:0.95em; color:#276D4D; margin-top:8px;">Fonte: Romer & Parsons (2016) - Biological Reviews. <a href="https://doi.org/10.1111/brv.12314" target="_blank">doi:10.1111/brv.12314</a></p>
+  <p style="margin-top:18px; font-size:1.05em; color:#1a1a1a;">Essas mudanças músculo-esqueléticas foram fundamentais para o sucesso evolutivo dos mamíferos, permitindo maior eficiência locomotora, adaptação a diferentes ambientes e o surgimento de características únicas do grupo.</p>
+    </div>
+  </section>
   </div>
+
+<div class="tab-content" id="tab-irradiacao" style="display:none;" role="tabpanel" aria-labelledby="tab-irradiacao-btn">
+  <section id="irradiacao-sinapsidos">
+    <h2>Irradiação dos Sinápsidos</h2>
+    <div style="text-align:center;">
+      <img src="../assets/irradiacao_sinapsida.png" alt="Irradiação dos Sinápsidos" style="max-width:95%; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.18); margin-bottom:18px;">
+    </div>
+    <p style="max-width:700px; margin:0 auto; text-align:center;">O gráfico ilustra a diversificação dos sinápsidos ao longo do tempo geológico, mostrando os principais grupos que surgiram e se extinguiram desde o Carbonífero até o presente. Destaca a ascensão dos mamíferos a partir de linhagens cinodontes, após grandes extinções e irradiações evolutivas.</p>
+  </section>
 </div>
 
-<script src="https://unpkg.com/reveal.js@4.6.2/dist/reveal.js"></script>
+<div class="tab-content" id="tab-cladograma" style="display:none;" role="tabpanel" aria-labelledby="tab-cladograma-btn">
+  <section id="cladograma">
+    <h2>Cladograma Interativo</h2>
+    <div class="two-col">
+      <div>
+        <p>Clique nos táxons para ver detalhes (imagem, texto e período).</p>
+        <p class="note">Dica: abra em tela cheia para melhor experiência.</p>
+        <p><a href="../cladograma_d3_refinado_01.html" target="_blank">Abrir em nova guia</a></p>
+      </div>
+      <div>
+        <iframe class="embedded" src="../cladograma_d3_refinado_01.html"></iframe>
+      </div>
+    </div>
+  </section>
+  </div>
+
+<div class="tab-content" id="tab-contexto" style="display:none;" role="tabpanel" aria-labelledby="tab-contexto-btn">
+  <section id="contexto-synapsida">
+    <h2 style="text-align:center; margin-bottom:18px;">Contexto Evolutivo: Synapsida</h2>
+    <div style="text-align:center; width:100%; margin-bottom:48px;">
+      <img src="../assets/grafico_linha_tempo.png" alt="Gráfico Evolutivo dos Synapsida" style="max-width:90%; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.18); margin-bottom:12px;">
+      <p class="note">Gráfico mostrando a diversificação dos principais grupos de synapsidas ao longo do tempo geológico.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 48px; width: 100%; align-items: center;">
+      <div style="text-align:center; width:100%;">
+        <img src="../images/synapsida.jpg" alt="Synapsida" style="width:75%; max-width:75vw; height:auto; margin-bottom:16px; object-fit:cover; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.18);">
+        <h3>Synapsida</h3>
+        <p style="max-width:700px; margin:0 auto;">Os synapsidas são um grupo de amniotas que inclui todos os mamíferos e seus ancestrais. Surgiram no final do Carbonífero e dominaram o ambiente terrestre durante o Permiano. Caracterizam-se pela presença de uma única abertura temporal no crânio, permitindo maior desenvolvimento dos músculos da mandíbula.</p>
+      </div>
+      <div style="text-align:center; width:100%;">
+        <img src="../images/therapsida.jpg" alt="Therapsida" style="width:75%; max-width:75vw; height:auto; margin-bottom:16px; object-fit:cover; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.18);">
+        <h3>Therapsida</h3>
+        <p style="max-width:700px; margin:0 auto;">Therapsida é um subgrupo de synapsidas que apresenta avanços importantes, como postura mais ereta, diferenciação dentária e maior capacidade metabólica. Dentre os therapsidas, os cinodontes são os ancestrais diretos dos mamíferos.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="tab-content" id="tab-taxons" style="display:none;" role="tabpanel" aria-labelledby="tab-taxons-btn">
+  <section id="cynodontia">
+    <h2>Cynodontia: Características-chave</h2>
+    <div class="two-col">
+      <div>
+        <img src="../images/cynodontia.jpg" alt="Cynodontia" style="max-width:100%">
+      </div>
+      <div>
+        <h3>Cynodontia</h3>
+        <p>Os cinodontes são um grupo avançado de terapsídeos que inclui os ancestrais diretos dos mamíferos. Apresentam características marcantes como palato secundário completo, dentes diferenciados (heterodontia), postura ereta, turbinações nasais e articulação mandibular dupla. Essas adaptações permitiram maior eficiência respiratória, mastigação e metabolismo elevado, aproximando-se da condição dos mamíferos modernos.</p>
+      </div>
+    </div>
+  </section>
+  <section id="procynosuchus">
+    <h2>Táxons-chave: Procynosuchus</h2>
+    <div class="two-col">
+      <div>
+        <img src="../images/procynosuchus.png" alt="Procynosuchus" style="max-width:100%">
+      </div>
+      <div>
+        <h3>Procynosuchus</h3>
+        <p>Um dos primeiros cinodontes, do final do Permiano. Pequeno, com corpo alongado e focinho estreito, adaptado à vida semiaquática. Apresenta início de diferenciação dentária e palato secundário, importantes para a evolução dos mamíferos.</p>
+      </div>
+    </div>
+  </section>
+  <section id="thrinaxodon">
+    <h2>Táxons-chave: Thrinaxodon</h2>
+    <div class="two-col">
+      <div>
+        <img src="../images/thrinaxodon.png" alt="Thrinaxodon" style="max-width:100%">
+      </div>
+      <div>
+        <h3>Thrinaxodon</h3>
+        <p>Viveu no início do Triássico. Pequeno, com postura mais ereta e crânio mais avançado. Exibe palato secundário completo, heterodontia e início de turbinações nasais, indicando avanços fisiológicos e comportamentais.</p>
+      </div>
+    </div>
+  </section>
+  <section id="cynognathus">
+    <h2>Táxons-chave: Cynognathus</h2>
+    <div class="two-col">
+      <div>
+        <img src="../images/cynognathus.png" alt="Cynognathus" style="max-width:100%">
+      </div>
+      <div>
+        <h3>Cynognathus</h3>
+        <p>Grande predador do Triássico. Mandíbula robusta, dentes diferenciados e postura ereta. Articulação dentário-esquamosal mais desenvolvida, aproximando-se da condição dos mamíferos. Indica avanços em mastigação e locomoção.</p>
+      </div>
+    </div>
+  </section>
+  <section id="morganucodon">
+    <h2>Táxons-chave: Morganucodon</h2>
+    <div class="two-col">
+      <div>
+        <img src="../images/morganucodon.png" alt="Morganucodon" style="max-width:100%">
+      </div>
+      <div>
+        <h3>Morganucodon</h3>
+        <p>Um dos primeiros mamaliaformes do Jurássico. Pequeno, noturno, com dentes tribosfênicos e articulação mandibular moderna. Marca a transição para mamíferos verdadeiros, com ouvido médio formado por ossículos derivados da mandíbula.</p>
+      </div>
+    </div>
+  </section>
+  <section id="mammaliaformes">
+    <h2>Mammaliaformes Modernos</h2>
+    <div class="two-col">
+      <div>
+        <img src="../images/ornithorhynchus.png" alt="Ornithorhynchus (Monotremado Moderno)" style="max-width:100%; margin-bottom:18px;">
+        <img src="../images/mammalia.jpg" alt="Mammaliaformes Modernos" style="max-width:100%">
+      </div>
+      <div>
+        <h3>Mammaliaformes Modernos</h3>
+        <p>Os mammaliaformes modernos incluem os mamíferos atuais e seus parentes mais próximos do passado, como monotremados, marsupiais e placentários. Apresentam características como pelos, glândulas mamárias, dentes tribosfênicos, ouvido médio com três ossículos e metabolismo elevado. Essas adaptações permitiram grande sucesso evolutivo e diversificação em ambientes variados.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="tab-content" id="tab-glossario" style="display:none;" role="tabpanel" aria-labelledby="tab-glossario-btn">
+  <section id="glossario">
+    <h2>Glossário</h2>
+    <div class="glossary glossary-grid">
+      <dl>
+        <dt>Sinápsidos (Synapsida)</dt>
+        <dd>Clado de amniotas com uma única fenestra temporal; inclui mamíferos e seus ancestrais fósseis. <em>ver slide</em></dd>
+        <dt>Saurópsidos (Sauropsida)</dt>
+        <dd>Clado-irmão dos sinápsidos: répteis e aves. <em>ver slide</em></dd>
+        <dt>Fenestra temporal</dt>
+        <dd>Abertura no crânio atrás da órbita que expande área para inserção de musculatura mandibular. <em>ver slide</em></dd>
+        <dt>Heterodontia</dt>
+        <dd>Dentição diferenciada (incisivos, caninos, pré-molares, molares) com funções distintas. <em>ver slide</em></dd>
+        <dt>Palato secundário</dt>
+        <dd>Separação entre cavidades oral e nasal, permitindo mastigação e respiração simultâneas. <em>ver slide</em></dd>
+        <dt>Articular–quadrado</dt>
+        <dd>Articulação mandibular ancestral dos amniotas (osso articular da mandíbula com quadrado do crânio). <em>ver slide</em></dd>
+        <dt>Dentário–esquamosal</dt>
+        <dd>Articulação mandibular típica de mamíferos (osso dentário com esquamosal). <em>ver slide</em></dd>
+        <dt>Exaptação</dt>
+        <dd>Cooptação de uma estrutura para nova função (ex.: articular/quadrado → martelo/bigorna). <em>ver slide</em></dd>
+        <dt>Endotermia / Ectotermia</dt>
+        <dd>Produção interna de calor vs. dependência do ambiente para a regulação térmica. <em>ver slide</em></dd>
+        <dt>Cynodontia (Cinodontes)</dt>
+        <dd>Subgrupo de terapsídeos com traços pré-mamalianos marcantes (palato, heterodontia, dentário expandido). <em>ver slide</em></dd>
+        <dt>Mammaliaformes</dt>
+        <dd>Grupo próximo à base de Mammalia, com muitas características de mamíferos. <em>ver slide</em></dd>
+        <dt>Tribosfênico</dt>
+        <dd>Padrão de molar mamaliano com cúspides que permitem trituração e cisalhamento eficientes. <em>ver slide</em></dd>
+        <dt>Postura esparramada/ereta</dt>
+        <dd>Ângulo dos membros em relação ao tronco; esparramada (lateral) vs. ereta (sob o corpo). <em>ver slide</em></dd>
+        <dt>Anápsidos / Diápsidos</dt>
+        <dd>Amniotas sem fenestras temporais (anápsidos) vs. com duas fenestras (diápsidos). <em>ver slide</em></dd>
+        <dt>Sinapomorfia</dt>
+        <dd>Caráter derivado compartilhado que define e sustenta um clado. <em>ver slide</em></dd>
+        <dt>Irradiação adaptativa</dt>
+        <dd>Rápida diversificação de um grupo em múltiplos nichos ecológicos. <em>ver slide</em></dd>
+        <dt>“Gargalo noturno”</dt>
+        <dd>Hipótese de que ancestrais mamalianos tiveram hábitos noturnos, influenciando adaptações sensoriais e fisiológicas. <em>ver slide</em></dd>
+        <dt>Metatarsos digitígrados</dt>
+        <dd>Padrão de apoio nos dedos (digitígrado), associado a locomoção mais eficiente. <em>ver slide</em></dd>
+        <dt>Narinas secundárias</dt>
+        <dd>Aberturas internas (coanas) recuadas pelo palato secundário, separando fluxo aéreo da cavidade oral. <em>ver slide</em></dd>
+        <dt>Diafragma</dt>
+        <dd>Músculo respiratório que separa tórax e abdômen; indícios em cinodontes sugerem ventilação eficiente. <em>ver slide</em></dd>
+      </dl>
+    </div>
+    <p class="note">Termos usados ao longo dos slides para facilitar a revisão durante a apresentação.</p>
+  </section>
+</div>
+
+<div class="tab-content" id="tab-pdf" style="display:none;" role="tabpanel" aria-labelledby="tab-pdf-btn">
+  <section id="pdf-apoio">
+    <h2>Leitura de Apoio (PDF)</h2>
+    <p>Documento: "Origem dos Mamíferos em Sinápsidos"</p>
+  <iframe class="embedded" src="../assets/origem-mamiferos-sinapsidos.pdf#page=1&zoom=page-width"></iframe>
+  <p class="note">Se o PDF não carregar, <a target="_blank" href="../assets/origem-mamiferos-sinapsidos.pdf">abra em nova guia</a>.</p>
+  </section>
+</div>
+<div class="tab-content" id="tab-fossil" style="display:none;" role="tabpanel" aria-labelledby="tab-fossil-btn">
+  <section id="fossil-distribuicao">
+    <h2>Distribuição Geográfica dos Fósseis</h2>
+    <div style="text-align:center;">
+      <img src="../assets/mapa_fosseis_sinapsidas.png" alt="Mapa de fósseis de sinápsidos" style="max-width:90%; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.18); margin-bottom:18px;">
+    </div>
+    <p style="max-width:700px; margin:0 auto; text-align:center;">O mapa mostra os principais locais de descoberta de fósseis de sinápsidos ao redor do mundo, evidenciando a ampla distribuição do grupo e sua importância para o estudo da evolução dos mamíferos.</p>
+  </section>
+</div>
+
+<div class="tab-content" id="tab-creditos" style="display:none;" role="tabpanel" aria-labelledby="tab-creditos-btn">
+  <section id="creditos-referencias">
+    <h2>Créditos e Referências</h2>
+    <ul>
+      <li><strong>Referência principal:</strong> Romer, A.S. & Parsons, T.S. (2016). The Vertebrate Body. Biological Reviews. <a href="https://doi.org/10.1111/brv.12314" target="_blank">doi:10.1111/brv.12314</a></li>
+      <li><strong>Imagens e textos:</strong> Projeto <em>cladograma_interativo</em> desenvolvido por Ronan Armando Caetano</li>
+      <li><strong>Slides construídos com:</strong> <a href="https://revealjs.com/" target="_blank">Reveal.js</a></li>
+      <li><strong>Softwares e bibliotecas utilizados:</strong>
+        <ul>
+          <li>Reveal.js (apresentação de slides)</li>
+          <li>D3.js (cladograma interativo)</li>
+          <li>ColorBrewer2 (paleta de cores BuGn)</li>
+          <li>HTML5, CSS3, JavaScript</li>
+          <li>VS Code</li>
+          <li>GitHub Pages</li>
+        </ul>
+      </li>
+      <li><strong>Acessibilidade implementada:</strong>
+        <ul>
+          <li>Leitores de tela: ARIA labels, roles e navegação por teclado completa</li>
+          <li>Modo alto contraste: Fundo preto + texto branco (WCAG AAA)</li>
+          <li>Skip link: Acesso direto ao conteúdo principal</li>
+          <li>Navegação acessível: Menu de abas com suporte a Tab, Enter e setas</li>
+          <li>Player de música acessível: Controles nativos com labels descritivos</li>
+          <li>Zoom nativo: Suporte completo do navegador</li>
+        </ul>
+      </li>
+      <li><strong>Autor:</strong> Ronan Armando Caetano</li>
+      <li><strong>Assistente de IA:</strong> GitHub Copilot (desenvolvimento do código e implementação das funcionalidades de acessibilidade)</li>
+    </ul>
+    <p class="note">Todos os direitos reservados ao autor. Projeto didático para fins educacionais.</p>
+  </section>
+</div>
+
+
 <script>
-  const deck = new Reveal({ 
-    hash: true, 
-    slideNumber: 'c/t',
-    showNotes: false,
-    
-    // Transições suaves e elegantes
-    transition: 'slide', // slide, fade, convex, concave, zoom
-    transitionSpeed: 'default', // default, fast, slow
-    backgroundTransition: 'fade',
-    
-    // Controles e navegação
-    controls: true,
-    controlsLayout: 'bottom-right',
-    controlsBackArrows: 'faded',
-    progress: true,
-    
-    // Comportamento
-    center: true,
-    touch: true,
-    loop: false,
-    rtl: false,
-    shuffle: false,
-    fragments: true,
-    fragmentInURL: true,
-    embedded: false,
-    help: true,
-    pause: true,
-    showNotes: false,
-    autoPlayMedia: null,
-    preloadIframes: null,
-    autoAnimate: true,
-    autoAnimateDuration: 1.0,
-    autoAnimateEasing: 'ease-out',
-    
-    // Visualização
-    width: 1280,
-    height: 720,
-    margin: 0.04,
-    minScale: 0.2,
-    maxScale: 2.0,
-    
-    // Plugins
-    plugins: []
-  });
-  
-  deck.initialize();
-  
-  // Função melhorada para alternar tema
+  // Alternar tema Reveal.js
   function toggleTheme(){
     const link = document.getElementById('theme');
     const themes = ['black','white','league','moon','night','serif','simple','solarized','blood','sky'];
@@ -718,21 +761,58 @@
     let idx = themes.indexOf(name);
     idx = (idx + 1) % themes.length;
     link.setAttribute('href', `https://unpkg.com/reveal.js@4.6.2/dist/theme/${themes[idx]}.css`);
-    
-    // Feedback visual
     const btn = event.target;
     btn.style.transform = 'scale(0.95)';
     setTimeout(() => btn.style.transform = 'scale(1)', 150);
   }
 
-  // Navegar para um slide pelo id da section
-  function goToSlide(id){
-    const target = document.querySelector(`.slides section#${id}`);
-    if(!target) return;
-    const sections = Array.from(document.querySelectorAll('.slides > section'));
-    const h = sections.indexOf(target);
-    if(h >= 0){ deck.slide(h); }
+  // Modo alto contraste
+  function toggleHighContrast(){
+    document.body.classList.toggle('high-contrast');
+    const btn = event.target;
+    btn.textContent = document.body.classList.contains('high-contrast') ? 'Contraste Normal' : 'Alto Contraste';
+    btn.setAttribute('aria-label', document.body.classList.contains('high-contrast') ? 'Desativar modo de alto contraste' : 'Ativar modo de alto contraste para melhor visibilidade');
   }
+
+  // Abas: navegação
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      switchTab(btn);
+    });
+    btn.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        switchTab(btn);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        const nextBtn = btn.nextElementSibling || btn.parentElement.firstElementChild;
+        nextBtn.focus();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const prevBtn = btn.previousElementSibling || btn.parentElement.lastElementChild;
+        prevBtn.focus();
+      }
+    });
+  });
+
+  function switchTab(btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+      b.setAttribute('tabindex', '-1');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    btn.setAttribute('tabindex', '0');
+    const tab = btn.getAttribute('data-tab');
+    document.querySelectorAll('.tab-content').forEach(tc => {
+      tc.style.display = (tc.id === 'tab-' + tab) ? 'block' : 'none';
+    });
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  // Música de fundo - removido JavaScript complexo, usando HTML5 nativo
+
 </script>
 </body>
 </html>
